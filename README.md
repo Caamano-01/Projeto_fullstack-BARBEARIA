@@ -1,12 +1,12 @@
-# 📘 BarberTime – Sistema de Agendamento para Barbearia
+# 📘 Senai Barbearia – Sistema de Agendamento para Barbearia
 
-O **BarberTime** é um sistema completo para gerenciamento de barbearias, permitindo que clientes realizem agendamentos online e que administradores/barbeiros gerenciem profissionais, serviços e horários disponíveis.
+O **Senai barbearia** é um sistema completo para gerenciamento de barbearias, permitindo que clientes realizem agendamentos online e que administradores/barbeiros gerenciem profissionais, serviços e horários disponíveis.
 
 ---
 
 ## ✂️ Descrição do Projeto
 
-O BarberTime foi criado para facilitar o fluxo de atendimento em barbearias, reduzindo erros de agendamento e agilizando o contato com os clientes.
+O Senai Barbearia foi criado para facilitar o fluxo de atendimento em barbearias, reduzindo erros de agendamento e agilizando o contato com os clientes.
 
 O sistema possui:
 
