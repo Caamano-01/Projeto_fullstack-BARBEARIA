@@ -1,0 +1,160 @@
+/* reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*************************** INDEX.HTML ************************/
+/*** corpo da página ****/
+.index {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/*** container principal ***/
+.container-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    padding: 20px;
+    max-width: 1000px;
+    width: 100%;
+}
+
+/**** lado esquerdo (logo e textos) ****/
+.esquerda-container {
+    text-align: center;
+    max-width: 500px;
+}
+
+.logo img {
+    width: 300px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* linha divisória */
+.divider {
+    border: 0;
+    height: 1px;
+    background-color: #000;
+    margin: 10px auto 20px auto;
+    width: 100%;
+}
+
+.bemvindo-text {
+    font-size: 1.3rem;
+    color:#000;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.admin-text {
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+.link-green {
+    color: #00c060;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/**** lado direito (card de login) ****/
+.direita-container {
+    background-color: #EEEEEE;
+    padding: 40px 50px;
+    border-radius: 30px;
+    width: 500px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.direita-container h1 {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #777;
+    border-radius: 8px;
+     font-size: 1rem;
+    background-color: #fff;
+    outline: none;
+}
+
+/* Ícone de olho no campo de senha */
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 20px;
+    opacity: 0.6;
+}
+
+/* Botão Entrar */
+.btn-login {
+    width: 100%;
+    background-color: #00C060; /* Verde do botão */
+    color: #000;
+    font-size: 1.2rem;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.btn-login:hover {
+    background-color: #00773c; /* Verde um pouco mais escuro no hover */
+}
+
+/* Rodapé do formulário */
+.footer-form {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.link-registro {
+    color: #008542;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/***************************************************************/
+
+/* Responsividade para telas menores (celular) */
+@media (max-width: 768px) {
+    .container-login {
+        flex-direction: column;
+        gap: 40px;
+    }
+}

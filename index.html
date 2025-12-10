@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senai Barbearia</title>
+    <!-- LINKS -->
+     <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body class="index">
+    <div class="container-login">
+        <!--------------------- Esquerda da página ---------------------->
+        <div class="esquerda-conteiner">
+            <!-- LOGO -->
+            <div class="logo">
+                <img src="img/Logo_escuro.png" alt="Logo Senai Barbearia">
+            </div>
+
+            <hr class="divider">
+
+            <!-- TEXTO BEM VINDO -->
+            <p class="bemvindo-text">
+                Bem vindo ao Senai Barbearia,<br>
+                faça login ou cadastre-se para<br>
+                acessar o site.
+            </p>
+        </div>
+
+        <!--------------------- Direita da página ----------------------->
+        <div class="direita-container">
+            <h1>Login</h1>
+            <!-- FORMULÁRIO DE LOGIN-->
+            <form action="/backend/routes/auth.php" method="post">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="password">
+                        <!-- ICON DE OLHO PARA VER SENHA -->
+                        <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+                </div>
+                <!-- BOTÃO DE ENVIO -->
+                <button type="submit" class="btn-login">Entrar</button>
+            </form>
+            <!-- TEXTO PARA ACESSAR CADASTRO -->
+            <p class="footer-form">
+                Não tem uma conta? <a href="" class="link-registro">cadastre-se</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
