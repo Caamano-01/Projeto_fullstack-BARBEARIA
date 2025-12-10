@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Senai Barbearia</title>
     <!-- LINKS -->
-     <link rel="stylesheet" href="CSS/style.css">
+     <link rel="stylesheet" href="../../CSS/style.css">
 </head>
 <body class="index">
     <div class="container-login">
@@ -13,7 +13,7 @@
         <div class="esquerda-conteiner">
             <!-- LOGO -->
             <div class="logo">
-                <img src="img/Logo_escuro.png" alt="Logo Senai Barbearia">
+                <img src="../../img/Logo_escuro.png" alt="Logo Senai Barbearia">
             </div>
 
             <hr class="divider">
@@ -28,32 +28,38 @@
 
         <!--------------------- Direita da página ----------------------->
         <div class="direita-container">
-            <h1>Login</h1>
+            <h1>Criar conta</h1>
             <!-- FORMULÁRIO DE LOGIN-->
-            <form action="/backend/routes/auth.php" method="post">
+           <form action="../../backend/routes/registro.php" method="post">
                 <div class="form-group">
+                    <label for="nome">Nome:</label>
+                    <input style="margin-bottom: 10px;" type="text" id="nome" name="nome" placeholder="Ex.: Marcos" required>
+
+                    <br>
+
+                    <label for="">Telefone:</label>
+                    <input style="margin-bottom: 10px;" type="text" id="telefone" name="telefone" placeholder="51991919191" required>
+
+                    <br>
+
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email">
+                    <input type="email" id="email" name="email" placeholder="Ex.: marcos@exemplo.com" required>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Senha:</label>
 
                     <div class="input-wrapper">
-                        <input type="password" id="password" name="password">
-                        <!-- ICON DE OLHO PARA VER SENHA -->
-                        <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
+                        <input type="password" id="password" name="password" required>
+                        <svg class="eye-icon" ...></svg>
                     </div>
                 </div>
-                <!-- BOTÃO DE ENVIO -->
-                <button type="submit" class="btn-login">Entrar</button>
+
+                <button type="submit" class="btn-login">Criar conta</button>
             </form>
             <!-- TEXTO PARA ACESSAR CADASTRO -->
             <p class="footer-form">
-                Não tem uma conta? <a href="../Projeto_fullstack-BARBEARIA/public/user/registro.html" class="link-pagina">cadastre-se</a>
+                Já tem uma conta? <a href="../../index.html" class="link-pagina">login</a>
             </p>
         </div>
     </div>

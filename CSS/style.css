@@ -55,11 +55,6 @@
     line-height: 1.5;
 }
 
-.admin-text {
-    font-size: 1.2rem;
-    margin-top: 10px;
-}
-
 .link-green {
     color: #00c060;
     text-decoration: none;
@@ -143,7 +138,7 @@
     font-size: 1.1rem;
 }
 
-.link-registro {
+.link-pagina {
     color: #008542;
     text-decoration: none;
     font-weight: bold;
