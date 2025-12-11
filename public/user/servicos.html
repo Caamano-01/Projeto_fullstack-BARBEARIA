@@ -46,7 +46,7 @@
             const container = document.getElementById("lista-servicos");
 
             try {
-                const resposta = await fetch("../../backend/api/routes/servicos.php");
+                const resposta = await fetch("../../backend/routes/servicos.php");
                 const json = await resposta.json();
 
                 if (!json.success) {
