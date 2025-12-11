@@ -156,7 +156,8 @@ html, body {
 .home, 
 .servicos, 
 .profissionais-body, 
-.localizacao, 
+.localizacao,
+.perfil-body, 
 .index {
     display: flex;
     flex-direction: column;
@@ -164,9 +165,10 @@ html, body {
 }
 
 /* 3. Faz o conteúdo principal crescer para empurrar o footer */
-.hero,                 /* Home */
-.container-servicos,   /* Serviços*/
-.container-cards,      /* Profissionais */
+.hero,    
+.container-servicos, 
+.container-cards,
+.container-perfil,  
 .conteudo-localizacao {  
     flex: 1;           
     width: 100%; 
@@ -617,7 +619,80 @@ nav a:hover {
     background-color: #333;
 }
 /**********************************************************************/
+/************************ PERFIL.HTML ************************/
+.perfil-body {
+    background-color: #fff;
+    font-family: 'Times New Roman', Times, serif;
+}
 
+.container-perfil {
+    max-width: 600px;
+    width: 90%;
+    margin: 40px auto; /* Centraliza horizontalmente */
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.form-group-perfil {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group-perfil label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.form-group-perfil input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.botoes-perfil {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 15px;
+}
+
+.btn-salvar {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    flex: 2; /* Botão salvar ocupa mais espaço */
+    transition: background 0.3s;
+}
+
+.btn-salvar:hover {
+    background-color: #333;
+}
+
+.btn-deletar {
+    background-color: #dc3545; /* Vermelho */
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    flex: 1;
+    transition: background 0.3s;
+}
+
+.btn-deletar:hover {
+    background-color: #a71d2a;
+}
 
 
 

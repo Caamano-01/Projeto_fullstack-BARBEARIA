@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Senai Barbearia</title>
+    <link rel="stylesheet" href="../../CSS/style.css">
+</head>
+<body class="profissionais-body">
+    <!-- CABEÇALHO -->
+    <header>
+        <div class="logo-container">
+            <img src="../../img/Logo_escuro.png" alt="Logo Senai Barbearia">
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="../user/home.html" class="active">Início</a></li>
+                <li><a href="../user/servicos.html">Serviços</a></li>
+                <li><a href="../user/profissionais.html">Profissionais</a></li>
+                <li><a href="../user/meus-horarios.html">Meus horários</a></li>
+                <li><a href="../user/agendar.html">Agendar</a></li>
+                <li><a href="../user/localizacao.html">Localização</a></li>
+                <li><a href="../user/perfil.html">Perfil</a></li>
+                <li><a href="../../index.html">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container-perfil" style="flex: 1;">
+        <h1 style="text-align: center; margin-bottom: 30px;">Meus Dados</h1>
+
+        <form id="form-perfil" onsubmit="salvarDados(event)">
+            <div class="form-group-perfil">
+                <label for="nome">Nome Completo:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+
+            <div class="form-group-perfil">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group-perfil">
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" name="telefone" placeholder="(XX) XXXXX-XXXX">
+            </div>
+
+            <div class="botoes-perfil">
+                <button type="button" class="btn-deletar" onclick="deletarConta()">
+                    Excluir Conta
+                </button>
+                
+                <button type="submit" class="btn-salvar">
+                    Salvar Alterações
+                </button>
+            </div>
+        </form>
+        <p id="mensagem" style="text-align: center; margin-top: 15px; font-weight: bold;"></p>
+    </div>
+
+    <!-- RODAPÉ -->
+    <footer>
+        <p>&copy; 2025 Senai Barbearia. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        const apiUrl = '../../backend/routes/perfil.php';
+
+        // 1. CARREGAR DADOS AO ABRIR A PÁGINA
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch(apiUrl)
+                .then(res => res.json())
+                .then(response => {
+                    if (response.success) {
+                        document.getElementById('nome').value = response.data.nome;
+                        document.getElementById('email').value = response.data.email;
+                        document.getElementById('telefone').value = response.data.telefone || '';
+                    } else {
+                        // Se não estiver logado, redireciona para login (opcional)
+                        if(response.message === 'Usuário não autenticado.') {
+                            window.location.href = '../../index.html';
+                        }
+                    }
+                })
+                .catch(err => console.error("Erro ao carregar:", err));
+        });
+
+        // 2. SALVAR ALTERAÇÕES
+        function salvarDados(e) {
+            e.preventDefault(); // Não recarrega a página
+            
+            const dados = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                telefone: document.getElementById('telefone').value
+            };
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            })
+            .then(res => res.json())
+            .then(response => {
+                const msg = document.getElementById('mensagem');
+                msg.innerText = response.message;
+                msg.style.color = response.success ? 'green' : 'red';
+            });
+        }
+
+        // 3. DELETAR CONTA
+        function deletarConta() {
+            if (confirm("Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita!")) {
+                fetch(apiUrl, { method: 'DELETE' })
+                .then(res => res.json())
+                .then(response => {
+                    if (response.success) {
+                        alert("Conta excluída com sucesso.");
+                        window.location.href = '../../index.html'; // Manda pro login
+                    } else {
+                        alert("Erro: " + response.message);
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
