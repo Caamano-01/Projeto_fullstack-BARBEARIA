@@ -27,10 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Redireciona conforme o tipo
             if ($usuario['tipo'] === 'admin') {
-                header("Location: ..");
+                header("Location: ../../public/admim/deshboard.html");
                 exit;
             } else {
-                header("Location: ..");
+                header("Location: ../../public/user/home.html");
                 exit;
             }
 

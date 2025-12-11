@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09/12/2025 às 20:52
+-- Tempo de geração: 11/12/2025 às 18:56
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -109,6 +109,14 @@ CREATE TABLE `servicos` (
   `ativo` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `servicos`
+--
+
+INSERT INTO `servicos` (`id`, `nome`, `descricao`, `preco`, `duracao_minutos`, `ativo`) VALUES
+(1, 'Corte Tradicional', 'Corte de cabelo clássico para todas as idades', 40.00, 30, 1),
+(2, 'Barba com Hidratação', 'Modelagem e tratamento de barba com produto hidratante', 50.00, 25, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -124,6 +132,14 @@ CREATE TABLE `usuarios` (
   `tipo` enum('cliente','admin') NOT NULL DEFAULT 'cliente',
   `data_cadastro` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha_hash`, `telefone`, `tipo`, `data_cadastro`) VALUES
+(1, 'Usuário Teste', 'usuario@teste.com', '$2y$10$V1EjVg8IMVbTt2p8t76oy.kjq3qzdxNcHQbDgVqKtsQq1tpZsvJpi', '11999999999', 'cliente', '2025-12-10 19:01:22'),
+(2, 'Administrador', 'admin@teste.com', '$2y$10$4ju0suV80aFJqg2gdq5SDeoH6tVw7/2xNttYWcifAmMSSnWNlYrW6', '11988888888', 'admin', '2025-12-10 19:01:22');
 
 --
 -- Índices para tabelas despejadas
@@ -217,13 +233,13 @@ ALTER TABLE `profissional_servico`
 -- AUTO_INCREMENT de tabela `servicos`
 --
 ALTER TABLE `servicos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restrições para tabelas despejadas

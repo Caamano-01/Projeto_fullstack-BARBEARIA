@@ -1,0 +1,86 @@
+<?php include "listar_servicos.php"; ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senai Barbearia</title>
+    <link rel="stylesheet" href="../../CSS/style.css">
+</head>
+<body class="servicos">
+    <!-- CABEÇALHO -->
+    <header>
+        <div class="logo-container">
+            <img src="../../img/Logo_escuro.png" alt="Logo Senai Barbearia">
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="../user/home.html" class="active">Início</a></li>
+                <li><a href="../user/servicos.html">Serviços</a></li>
+                <li><a href="../user/profissionais.html">Profissionais</a></li>
+                <li><a href="../user/meus-horarios.html">Meus horários</a></li>
+                <li><a href="../user/agendar.html">Agendar</a></li>
+                <li><a href="../user/localizacao.html">Localização</a></li>
+                <li><a href="../user/perfil.html">Perfil</a></li>
+                <li><a href="../../index.html">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+   <div class="container-servicos">
+        <div class="titulo">Serviços</div>
+
+        <div id="lista-servicos">
+            <p>Carregando serviços...</p>
+        </div>
+    </div>
+
+    <!-- RODAPÉ -->
+    <footer>
+        <p>&copy; 2025 Senai Barbearia. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        async function carregarServicos() {
+            const container = document.getElementById("lista-servicos");
+
+            try {
+                const resposta = await fetch("../../backend/api/routes/servicos.php");
+                const json = await resposta.json();
+
+                if (!json.success) {
+                    container.innerHTML = "<p>Erro ao carregar serviços.</p>";
+                    return;
+                }
+
+                const servicos = json.data;
+
+                if (servicos.length === 0) {
+                    container.innerHTML = "<p>Nenhum serviço disponível.</p>";
+                    return;
+                }
+
+                container.innerHTML = "";
+
+                servicos.forEach(s => {
+                    container.innerHTML += `
+                        <div class="card">
+                            <div>${s.nome}</div>
+                            <div class="preco">
+                                R$ ${parseFloat(s.preco).toFixed(2).replace('.', ',')}<br>
+                                <span class="tempo">${s.duracao_minutos}min</span>
+                            </div>
+                        </div>
+                    `;
+                });
+
+            } catch (erro) {
+                container.innerHTML = "<p>Erro na comunicação com o servidor.</p>";
+            }
+        }
+
+        carregarServicos();
+    </script>
+</body>
+</html>
