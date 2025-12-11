@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profissionais - Senai Barbearia</title>
+    <link rel="stylesheet" href="../../CSS/style.css">
+</head>
+<body class="profissionais-body">
+
+    <!-- CABEÇALHO -->
+    <header>
+        <div class="logo-container">
+            <img src="../../img/Logo_escuro.png" alt="Logo Senai Barbearia">
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="../user/home.html" class="active">Início</a></li>
+                <li><a href="../user/servicos.html">Serviços</a></li>
+                <li><a href="../user/profissionais.html">Profissionais</a></li>
+                <li><a href="../user/meus-horarios.html">Meus horários</a></li>
+                <li><a href="../user/agendar.html">Agendar</a></li>
+                <li><a href="../user/localizacao.html">Localização</a></li>
+                <li><a href="../user/perfil.html">Perfil</a></li>
+                <li><a href="../../index.html">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1 class="titulo-profissionais">Profissionais</h1>
+
+    <div class="container-cards" id="lista-profissionais">
+        <p>Carregando profissionais...</p>
+    </div>
+
+    <div id="modal-especialidades" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="fecharModal()">&times;</span>
+            <h2 id="modal-nome">Nome do Profissional</h2>
+            <p id="modal-texto">Lista de especialidades aqui...</p>
+            <button class="btn-fechar-modal" onclick="fecharModal()">Fechar</button>
+        </div>
+    </div>
+
+    <!-- RODAPÉ -->
+    <footer>
+        <p>&copy; 2025 Senai Barbearia. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // 1. Carregar dados do Backend
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('lista-profissionais');
+
+            fetch('../../backend/routes/profissionais.php')
+                .then(response => response.json())
+                .then(data => {
+                    container.innerHTML = ''; 
+
+                    if (data.erro) {
+                        container.innerHTML = `<p>${data.erro}</p>`;
+                        return;
+                    }
+
+                    data.forEach(prof => {
+                        const imagem = prof.foto_url ? prof.foto_url : '../../img/barbershop.png';
+                        // Escapamos as aspas para evitar erro no JS ao passar string
+                        const nomeSafe = prof.nome.replace(/'/g, "\\'"); 
+                        const espSafe = prof.especialidade ? prof.especialidade.replace(/'/g, "\\'") : 'Geral';
+
+                        const cardHTML = `
+                            <div class="card-pro">
+                                <img src="${imagem}" alt="Foto de ${prof.nome}">
+                                <h3>${prof.nome}</h3>
+                                <p class="whatsapp-label">WhatsApp</p>
+                                <p class="phone">${prof.contato}</p>
+                                
+                                <button class="btn-especialidades" 
+                                    onclick="abrirModal('${nomeSafe}', '${espSafe}')">
+                                    Especialidades
+                                </button>
+                            </div>
+                        `;
+                        container.innerHTML += cardHTML;
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    container.innerHTML = '<p>Erro ao carregar profissionais.</p>';
+                });
+        });
+
+        // 2. Funções do Modal
+        const modal = document.getElementById('modal-especialidades');
+        const modalNome = document.getElementById('modal-nome');
+        const modalTexto = document.getElementById('modal-texto');
+
+        function abrirModal(nome, especialidade) {
+            modalNome.innerText = nome;
+            modalTexto.innerText = especialidade;
+            modal.style.display = 'flex'; // Mostra o modal
+        }
+
+        function fecharModal() {
+            modal.style.display = 'none'; // Esconde o modal
+        }
+
+        // Fechar se clicar fora da caixa branca
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                fecharModal();
+            }
+        }
+    </script>
+</body>
+</html>

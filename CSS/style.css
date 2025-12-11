@@ -146,6 +146,43 @@
 
 /***************************************************************/
 /******************* HOME.HTML ********************************/
+/* 1. Garante que a altura da página seja pelo menos 100% da tela */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* 2. Configuração Flexbox para todas as páginas */
+.home, 
+.servicos, 
+.profissionais-body, 
+.localizacao, 
+.index {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garante altura mínima da tela inteira */
+}
+
+/* 3. Faz o conteúdo principal crescer para empurrar o footer */
+.hero,                 /* Home */
+.container-servicos,   /* Serviços*/
+.container-cards,      /* Profissionais */
+.conteudo-localizacao {  
+    flex: 1;           
+    width: 100%; 
+}
+
+/* Garante que o footer tenha largura total */
+footer {
+    width: 100%;
+    background-color: #f2f2f2; 
+    color: #000000;
+    padding: 20px;
+    text-align: center;
+    margin-top: auto; /* Garante empurrão extra se o flex falhar em algo */
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+}
+
 .home-html, .home {
     height: 100%; /* Garante altura total */
 }
@@ -269,19 +306,6 @@ nav a:hover {
     background-color: #fff;
     color: #000;
 }
-
-/* FOOTER (RODAPÉ) */
-footer {
-    background-color: #f2f2f2; /* Quase preto */
-    text-align: center;
-    padding: 25px;
-    box-shadow: 5px 0px 0px 5px rgba(0,0,0,0.1);
-}
-
-footer p {
-    font-size: 1.1rem;
-    opacity: 0.8;
-}
 /**************************************************************/
 /********************** LOCALIZACAO.HTML **************************/
 .localizacao {
@@ -378,6 +402,10 @@ footer p {
     margin: 0;
 }
 
+.servicos header{
+    font-size: 22px;
+}
+
 .container-servicos {
     width: 600px;
     margin: auto;
@@ -411,7 +439,184 @@ footer p {
     font-size: 18px;
 }
 /********************************************************************/
+/************************ PROFISSIONAIS.HTML ************************/
+.profissionais-body {
+    background-color: #fff;
+    font-family: 'Times New Roman', Times, serif;
+    min-height: 100vh;
+    /* Flexbox para empurrar o footer para baixo, mas SEM centralizar os itens */
+    display: flex;
+    flex-direction: column;
+}
 
+/* Força cabeçalho e rodapé a pegarem a largura total */
+.profissionais-body header,
+.profissionais-body footer {
+    width: 100%;
+}
+
+.titulo-profissionais {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 40px 0;
+    text-align: center;
+    color: #000;
+}
+
+/* Container dos Cards */
+.container-cards {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    padding: 20px;
+    
+    /* Importante: Centraliza o container na tela sem encolher o header */
+    margin: 0 auto; 
+    flex-grow: 1; /* Faz essa área crescer para ocupar espaço vazio antes do footer */
+}
+
+.card-pro {
+    background-color: #F5F5F5;
+    border-radius: 20px;
+    width: 300px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    text-align: center;
+    padding-bottom: 25px;
+    transition: transform 0.3s ease;
+}
+
+.card-pro:hover {
+    transform: translateY(-5px); /* Efeito de subir ao passar o mouse */
+}
+
+/* Imagem do Profissional */
+.card-pro img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover; /* Corta a imagem para preencher sem esticar */
+    border-radius: 20px 20px 0 0; /* Arredonda só em cima se quiser, ou ajuste conforme a imagem */
+    margin-bottom: 15px;
+}
+
+/* Texto do Card */
+.card-pro h3 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #000;
+}
+
+.card-pro p.whatsapp-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 2px;
+    color: #000;
+}
+
+.card-pro p.phone {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Botão Preto */
+.btn-especialidades {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 30px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    display: inline-block;
+}
+
+.btn-especialidades:hover {
+    background-color: #333;
+}
+/******** MODAL DE ESPECIALIDADES **********/
+/* Fundo escuro atrás da janela */
+.modal-overlay {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Preto transparente */
+    justify-content: center;
+    align-items: center;
+}
+
+/* A janela branca */
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: modalFadeIn 0.3s;
+}
+
+/* Animação suave de entrada */
+@keyframes modalFadeIn {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* Título do Modal */
+.modal-content h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #000;
+}
+
+/* Texto das especialidades */
+.modal-content p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* Botão de fechar (X) */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #000;
+}
+
+/* Botão Fechar inferior */
+.btn-fechar-modal {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+}
+
+.btn-fechar-modal:hover {
+    background-color: #333;
+}
+/**********************************************************************/
 
 
 
