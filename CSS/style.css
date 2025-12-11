@@ -172,7 +172,7 @@ header {
 }
 
 .logo-container img {
-    height: 60px; /* Ajuste o tamanho do logo aqui */
+    height: 80px; /* Ajuste o tamanho do logo aqui */
     width: auto;
 }
 
@@ -272,18 +272,104 @@ nav a:hover {
 
 /* FOOTER (RODAPÉ) */
 footer {
-    background-color: #1a1a1a; /* Quase preto */
-    color: #fff;
+    background-color: #f2f2f2; /* Quase preto */
     text-align: center;
     padding: 25px;
-    border-top: 4px solid #000;
+    box-shadow: 5px 0px 0px 5px rgba(0,0,0,0.1);
 }
 
 footer p {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     opacity: 0.8;
 }
 /**************************************************************/
+/********************** LOCALIZACAO.HTML **************************/
+.localizacao {
+    height: 100%; /* Garante altura total */
+    font-family: "Times New Roman", Times, serif;
+    background-color: #fff;
+    margin: 0;
+}
+
+.location-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Título */
+.section-title {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: #000;
+}
+
+        /* Container do Mapa e Texto */
+.content-container {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center;
+    gap: 50px; /* Espaço entre mapa e texto */
+    flex-wrap: wrap; /* Para funcionar bem em celulares */
+}
+
+/* --- ESTILO DO MAPA --- */
+#map {
+    width: 500px;  /* Largura do mapa */
+    height: 300px; /* Altura do mapa */
+    border-radius: 30px; /* Bordas bem arredondadas como na imagem */
+    border: 3px solid #000; /* Borda preta grossa */
+    z-index: 1; /* Garante que fique na camada correta */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* --- ESTILO DAS INFORMAÇÕES --- */
+.info-panel {
+    flex: 1; /* Ocupa o espaço restante */
+    min-width: 300px;
+    font-size: 1.3rem;
+    color: #000;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+/* Ícones */
+.icon {
+    margin-right: 15px;
+    font-size: 1.5rem;
+    width: 30px; /* Largura fixa para alinhar texto */
+    text-align: center;
+}
+
+.icon-pin { color: #E91E63; /* Cor rosa do pin */ }
+.icon-phone { color: #E91E63; /* Cor rosa do telefone */ }
+.icon-email { color: #673AB7; /* Cor roxa/azul do email */ }
+
+.contact-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* Link do email e telefone para ficarem clicáveis */
+.info-item a {
+    text-decoration: none;
+    color: #000;
+}
+        
+.info-item a:hover {
+    text-decoration: underline;
+}
+/******************************************************************/
 
 /* Responsividade para telas menores (celular) */
 @media (max-width: 768px) {
@@ -310,5 +396,20 @@ footer p {
     
     .hero {
         min-height: 400px; /* Altura menor em celulares */
+    }
+
+    .content-container {
+        flex-direction: column;
+        text-align: center;
+    }
+            
+    #map {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .info-item {
+        justify-content: center; /* Centraliza itens no mobile */
+        text-align: left;
     }
 }

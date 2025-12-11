@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senai Barbearia</title>
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="localizacao">
+    <!-- CABEÇALHO -->
+    <header>
+        <div class="logo-container">
+            <img src="../../img/Logo_escuro.png" alt="Logo Senai Barbearia">
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="../user/home.html" class="active">Início</a></li>
+                <li><a href="../user/servicos.html">Serviços</a></li>
+                <li><a href="../user/profissionais.html">Profissionais</a></li>
+                <li><a href="../user/meus-horarios.html">Meus horários</a></li>
+                <li><a href="../user/agendar.html">Agendar</a></li>
+                <li><a href="../user/localizacao.html">Localização</a></li>
+                <li><a href="../user/perfil.html">Perfil</a></li>
+                <li><a href="../../index.html">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="location-section">
+        <h2 class="section-title">Localização</h2>
+
+        <div class="content-container">
+            <div id="map"></div>
+
+            <div class="info-panel">
+                <div class="info-item">
+                    <i class="fa-solid fa-location-dot icon icon-pin"></i>
+                    <span>
+                        Av. Sertório, 473 - Navegantes,<br>
+                        Porto Alegre - RS, 90230-020
+                    </span>
+                </div>
+
+                <span class="contact-title">Contatos:</span>
+
+                <div class="info-item">
+                    <i class="fa-solid fa-phone icon icon-phone"></i>
+                    <a href="tel:+555130203020">(51) 3020-3020</a>
+                </div>
+
+                <div class="info-item">
+                    <i class="fa-solid fa-envelope icon icon-email"></i>
+                    <a href="mailto:senaibarbearia@gmail.com">senaibarbearia@gmail.com</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer>
+        <p>&copy; 2025 Senai Barbearia. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script>
+        // 1. Coordenadas da Barbearia (Fixo)
+        const latBarbearia = -30.000147;
+        const lngBarbearia = -51.20194;
+
+        // Inicializa o mapa
+        var map = L.map('map').setView([latBarbearia, lngBarbearia], 14);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // ---------------------------------------------------------
+        // A. CRIANDO O ÍCONE PERSONALIZADO (Barbeiro/Tesoura)
+        // ---------------------------------------------------------
+        var barberIcon = L.icon({
+            iconUrl: '../../img/barberSHOP.png',
+            
+            iconSize:     [40, 40], // Tamanho do ícone (largura, altura)
+            iconAnchor:   [20, 40], // Ponto do ícone que fica na coordenada (metade da largura, altura total)
+            popupAnchor:  [0, -40]  // Onde o popup abre em relação ao ícone
+        });
+
+        // Adiciona o marcador da Barbearia com o ícone novo
+        var markerBarbearia = L.marker([latBarbearia, lngBarbearia], {icon: barberIcon}).addTo(map);
+        markerBarbearia.bindPopup("<b>Senai Barbearia</b><br>Estamos aqui!").openPopup();
+
+        // ---------------------------------------------------------
+        // B. GEOLOCALIZAÇÃO DO USUÁRIO
+        // ---------------------------------------------------------
+        
+        // Pede ao navegador para encontrar o usuário
+        map.locate({setView: false, watch: true, maxZoom: 16});
+
+        // Função que roda quando a localização é encontrada
+        function onLocationFound(e) {
+            var radius = e.accuracy;
+
+            // Cria um marcador padrão (Azul) para o Usuário
+            L.marker(e.latlng).addTo(map)
+                .bindPopup("Você está aqui (" + Math.round(radius) + "m de precisão)");
+
+            // Cria um círculo azul ao redor mostrando a precisão
+            L.circle(e.latlng, radius).addTo(map);
+
+            // Ajusta o mapa para mostrar TANTO a Barbearia QUANTO o Usuário
+            var group = new L.featureGroup([markerBarbearia, L.marker(e.latlng)]);
+            map.fitBounds(group.getBounds().pad(0.1));
+        }
+
+        // Função de erro (caso o usuário negue permissão ou o GPS esteja desligado)
+        function onLocationError(e) {
+            console.log("Não foi possível acessar sua localização.");
+            // Se der erro, apenas centraliza na barbearia
+            map.setView([latBarbearia, lngBarbearia], 15);
+        }
+
+        map.on('locationfound', onLocationFound);
+        map.on('locationerror', onLocationError);
+    </script>
+</body>
+</html>
