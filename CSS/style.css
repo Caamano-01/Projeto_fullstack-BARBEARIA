@@ -230,7 +230,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #555;
+    color: #006b09;
 }
 
 /* HERO SECTION (IMAGEM + TEXTO) */
@@ -619,7 +619,7 @@ nav a:hover {
     background-color: #333;
 }
 /**********************************************************************/
-/************************ PERFIL.HTML ************************/
+/**************************** PERFIL.HTML *****************************/
 .perfil-body {
     background-color: #fff;
     font-family: 'Times New Roman', Times, serif;
@@ -694,7 +694,13 @@ nav a:hover {
     background-color: #a71d2a;
 }
 
-
+/**********************************************************************/
+/**************************** AGENDAR.HTML *****************************/
+.btn-sair {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+}
 
 
 
