@@ -35,44 +35,137 @@
             <span class="user-name"></span>
          </div>
      </div>
+    
+    <!-- MAIN -->
+     <main>
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h3>Serviço mais utilizado</h3>
+                        <canvas id="chartServicos"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <h3>Frequência de Clientes</h3>
+                        <canvas id="chartClientes"></canvas>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="text-center">Agendamentos de Hoje</h3>
+                        <div id="agendamentos-container">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+     </main>
+
+    <!-- SCRIPTS -->
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
      <script>
-        // verifica segurança
-        fetch('../../backend/routes/verificar_adm.php')
-            .then(response => response.json())
-            .then(data => {
-                if (!data.autorizado) {
-                    alert('Acesso negado! Esta área é restrita a administradores.');
-                    window.location.href = '../../index.html';
-                }
-            })
-            .catch(error => {
-                console.error('Erro na verificação:', error);
-                window.location.href = '../../index.html';
-        });
-
         document.addEventListener('DOMContentLoaded', function() {
-            // Procura os dados da sessão
+            // verificação de sessão e nome do usuário
             fetch('../../backend/routes/session.php')
                 .then(response => response.json())
                 .then(data => {
                     const nameElement = document.querySelector('.user-name');
                     if (data.logado) {
                         nameElement.textContent = data.nome; 
+                        carregarDashboard();
                     } else {
                         window.location.href = "../../index.html";
                     }
                 })
                 .catch(error => console.error('Erro ao carregar sessão:', error));
 
-            // marcar link ativo
-            const links = document.querySelectorAll('.sidebar a');
-            const current = window.location.href;
-            links.forEach(link => {
-                if(link.href === current){
-                    link.classList.add('active');
+            // função principal do dashboard
+            function carregarDashboard() {
+                fetch('../../backend/routes/get_dashboard_data.php')
+                    .then(res => res.json())
+                    .then(data => {
+                        renderizarGraficos(data);
+                        renderizarTabela(data.hoje);
+                    })
+                    .catch(err => console.error('Erro ao buscar dados:', err));
+            }
+
+            // renderização dos gráficos (Chart.js)
+            function renderizarGraficos(data) {
+                // Gráfico de Serviços (Barras)
+                new Chart(document.getElementById('chartServicos'), {
+                    type: 'bar',
+                    data: {
+                        labels: data.servicos.nomes,
+                        datasets: [{
+                            label: 'Total de Usos',
+                            data: data.servicos.valores,
+                            backgroundColor: '#000285',
+                            borderRadius: 5
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+
+                // gráfico de clientes
+                new Chart(document.getElementById('chartClientes'), {
+                    type: 'line',
+                    data: {
+                        labels: data.clientes.nomes,
+                        datasets: [{
+                            label: 'Visitas',
+                            data: data.clientes.valores,
+                            borderColor: '#000285',
+                            backgroundColor: 'rgba(0, 2, 133, 0.1)',
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+            }
+
+            // 4. renderização da tabela de hoje
+            function renderizarTabela(agendamentos) {
+                const container = document.getElementById('agendamentos-container');
+                
+                if (!agendamentos || agendamentos.length === 0) {
+                    container.innerHTML = '<div class="alert alert-info text-center mt-4">Sem agendamentos para hoje.</div>';
+                    return;
                 }
-            });
+
+                // criar estrutura de tabela por profissional
+                let html = '';
+                agendamentos.forEach(ag => {
+                    html += `
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-header bg-dark text-white">
+                            <strong>Barbeiro: ${ag.profissional}</strong>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Serviço</th>
+                                        <th>Hora</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>${ag.cliente}</td>
+                                        <td>${ag.servico}</td>
+                                        <td><span class="badge bg-primary">${ag.hora}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>`;
+                });
+                container.innerHTML = html;
+            }
         });
     </script>
 </body>

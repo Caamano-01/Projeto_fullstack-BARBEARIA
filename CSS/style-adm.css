@@ -64,3 +64,21 @@ body {
     color: #000285;
     font-weight: 500;
 }
+
+/* MAIN */
+.main-content {
+    margin-left: 250px;
+    padding: 40px;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+canvas {
+    max-height: 300px;
+    margin-bottom: 30px;
+}
+
+.logo img {
+    max-width: 150px;
+    margin-bottom: 20px;
+}
