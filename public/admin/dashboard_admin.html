@@ -37,20 +37,33 @@
      </div>
 
      <script>
+        // verifica segurança
+        fetch('../../backend/routes/verificar_adm.php')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.autorizado) {
+                    alert('Acesso negado! Esta área é restrita a administradores.');
+                    window.location.href = '../../index.html';
+                }
+            })
+            .catch(error => {
+                console.error('Erro na verificação:', error);
+                window.location.href = '../../index.html';
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
-            // busca os dados da sessão do PHP
+            // Procura os dados da sessão
             fetch('../../backend/routes/session.php')
                 .then(response => response.json())
                 .then(data => {
+                    const nameElement = document.querySelector('.user-name');
                     if (data.logado) {
-                        // insere o nome do usuário no HTML
-                        document.querySelector('.user-name').textContent = data.nome;
+                        nameElement.textContent = data.nome; 
                     } else {
-                        // se não estiver logado, redireciona para o login
                         window.location.href = "../../index.html";
                     }
                 })
-                .catch(error => console.error('Erro ao buscar sessão:', error));
+                .catch(error => console.error('Erro ao carregar sessão:', error));
 
             // marcar link ativo
             const links = document.querySelectorAll('.sidebar a');

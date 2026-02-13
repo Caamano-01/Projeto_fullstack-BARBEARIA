@@ -1,17 +1,13 @@
-<?php 
+<?php
 session_start();
 header('Content-Type: application/json');
 
-// verifica se o usuário está logado e retorna os dados
-if (isset($SESSION['usuario_id'])) {
-    echo json_encode ([
+if (isset($_SESSION['usuario_nome'])) {
+    echo json_encode([
         'logado' => true,
-        'nome' => $_SESSION['usuario_nome'],
-        'tipo' => $SESSION['usuario_tipo']
+        'nome' => $_SESSION['usuario_nome']
     ]);
 } else {
-    echo json_encode([
-        'logado' => false
-    ])
+    echo json_encode(['logado' => false]);
 }
 ?>
