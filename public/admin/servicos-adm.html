@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços</title>
+    <!-- icon -->
+    <link rel="icon" href="../../img/barbershop.png" type="image/png">
+
+    <!-- LINKS -->
+     <!-- css --><link rel="stylesheet" href="../../CSS/style-adm.css">
+    <!-- bootstrap --><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- SIDEBAR -->
+     <div class="sidebar">
+        <!-- logo-->
+         <div class="text-center mb-4 logo">
+            <img src="../../img/Logo_escuro.png" class="img-fluid" alt="Logo">
+         </div>
+
+        <!-- nav -->
+         <nav class="menu">
+            <a href="dashboard_admin.html">Dashboard</a>
+            <a href="servicos-adm.html" class="active">Serviços</a>
+            <a href="profissionais-adm.html">Profissionais</a>
+            <a href="agenda-adm.html">Serviços agendados</a>
+            <a href="horarios-adm.html">Horários</a>
+            <a href="../../index.html">Sair</a>
+         </nav>
+
+        <!-- usuário -->
+         <div class="user-info">
+            <span class="user-label">Usuário:</span>
+            <span class="user-name"></span>
+         </div>
+     </div>
+
+    <!-- MAIN --> 
+     <main class="main-content">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="display-5 fw-bold">Serviços</h1>
+                    <p class="text-muted">Customize, adicione ou exclua serviços</p>
+                </div>
+                <button class="btn btn-add-servico shadow-sm">+ Add serviço</button>
+            </div>
+
+            <div class="services-container shadow-sm p-4" id="lista-servicos">
+                </div>
+        </div>
+    </main>
+
+
+
+
+
+
+
+
+
+
+    <!-- SCRIPTS -->
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // verificação de sessão e nome do usuário
+            fetch('../../backend/routes/session.php')
+                .then(response => response.json())
+                .then(data => {
+                    const nameElement = document.querySelector('.user-name');
+                    if (data.logado) {
+                        nameElement.textContent = data.nome; 
+                        carregarDashboard();
+                    } else {
+                        window.location.href = "../../index.html";
+                    }
+                })
+                .catch(error => console.error('Erro ao carregar sessão:', error));
+
+            // Carregar Serviços do Banco de Dados
+            fetch('../../backend/routes/servicos.php')
+                .then(res => res.json())
+                .then(response => {
+                    const container = document.getElementById('lista-servicos');
+                    if (response.success) {
+                        container.innerHTML = response.data.map(servico => `
+                            <div class="service-card d-flex align-items-center mb-3">
+                                <div class="service-icon">
+                                    <img src="../../img/icone-servico.png" alt="Ícone">
+                                </div>
+                                <div class="service-details flex-grow-1 ms-3">
+                                    <h4 class="mb-0">${servico.nome}</h4>
+                                </div>
+                                <div class="service-info text-center me-4">
+                                    <span class="d-block fw-bold fs-5">R$ ${parseFloat(servico.preco).toFixed(2).replace('.', ',')}</span>
+                                    <span class="text-muted small">${servico.duracao_minutos}min</span>
+                                </div>
+                                <div class="service-actions">
+                                    <button class="btn btn-edit me-2">Editar</button>
+                                    <button class="btn btn-delete">Excluir</button>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                });
+        });
+    </script>
+</body>
+</html>

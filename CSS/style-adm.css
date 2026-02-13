@@ -5,7 +5,7 @@ body {
     font-family: 'Times New Roman', Times, serif;
 }
 
-/* SIDEBAR FIXA */
+/* SIDEBAR FIXA GERAL */
 .sidebar {
     width: 250px;
     height: 100vh;
@@ -82,3 +82,49 @@ canvas {
     max-width: 150px;
     margin-bottom: 20px;
 }
+
+/* SERVIÇOS.HTML */
+.btn-add-servico {
+    background-color: #a7a7a7;
+    color: #000000;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 600;
+    border: none;
+}
+
+.services-container {
+    background-color: #7c7c7c;
+    border-radius: 15px;
+    min-height: 400px;
+}
+
+.service-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 15px 25px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.service-icon img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.service-details h4 {
+    font-family: 'Times New Roman', serif;
+    font-weight: bold;
+}
+
+.btn-edit, .btn-delete {
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.btn-delete:hover { background-color: #ffcccc; color: #cc0000; }
+.btn-edit:hover { background-color: #d0d0d0; }
