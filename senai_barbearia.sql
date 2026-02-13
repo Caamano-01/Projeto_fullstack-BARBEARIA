@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 11/12/2025 às 21:17
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Tempo de geração: 13-Fev-2026 às 21:19
+-- Versão do servidor: 10.4.24-MariaDB
+-- versão do PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `agendamentos`
+-- Estrutura da tabela `agendamentos`
 --
 
 CREATE TABLE `agendamentos` (
@@ -36,12 +36,12 @@ CREATE TABLE `agendamentos` (
   `hora` time NOT NULL,
   `status` enum('pendente','confirmado','concluido','cancelado') DEFAULT 'pendente',
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `bloqueios_horarios`
+-- Estrutura da tabela `bloqueios_horarios`
 --
 
 CREATE TABLE `bloqueios_horarios` (
@@ -51,12 +51,12 @@ CREATE TABLE `bloqueios_horarios` (
   `hora_inicio` time NOT NULL,
   `hora_fim` time NOT NULL,
   `motivo` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `faturamento`
+-- Estrutura da tabela `faturamento`
 --
 
 CREATE TABLE `faturamento` (
@@ -65,12 +65,12 @@ CREATE TABLE `faturamento` (
   `valor` decimal(10,2) NOT NULL,
   `data_pagamento` date NOT NULL,
   `forma_pagamento` enum('dinheiro','pix','cartao','outros') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `profissionais`
+-- Estrutura da tabela `profissionais`
 --
 
 CREATE TABLE `profissionais` (
@@ -80,24 +80,24 @@ CREATE TABLE `profissionais` (
   `contato` varchar(50) DEFAULT NULL,
   `foto_url` varchar(255) DEFAULT NULL,
   `ativo` tinyint(1) DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `profissional_servico`
+-- Estrutura da tabela `profissional_servico`
 --
 
 CREATE TABLE `profissional_servico` (
   `id` int(11) NOT NULL,
   `profissional_id` int(11) NOT NULL,
   `servico_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `servicos`
+-- Estrutura da tabela `servicos`
 --
 
 CREATE TABLE `servicos` (
@@ -107,20 +107,20 @@ CREATE TABLE `servicos` (
   `preco` decimal(10,2) NOT NULL,
   `duracao_minutos` int(11) NOT NULL,
   `ativo` tinyint(1) DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Despejando dados para a tabela `servicos`
+-- Extraindo dados da tabela `servicos`
 --
 
 INSERT INTO `servicos` (`id`, `nome`, `descricao`, `preco`, `duracao_minutos`, `ativo`) VALUES
-(1, 'Corte Tradicional', 'Corte de cabelo clássico para todas as idades', 40.00, 30, 1),
-(2, 'Barba com Hidratação', 'Modelagem e tratamento de barba com produto hidratante', 50.00, 25, 1);
+(1, 'Corte Tradicional', 'Corte de cabelo clássico para todas as idades', '40.00', 30, 1),
+(2, 'Barba com Hidratação', 'Modelagem e tratamento de barba com produto hidratante', '50.00', 25, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `usuarios`
+-- Estrutura da tabela `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -131,22 +131,22 @@ CREATE TABLE `usuarios` (
   `telefone` varchar(20) DEFAULT NULL,
   `tipo` enum('cliente','admin') NOT NULL DEFAULT 'cliente',
   `data_cadastro` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Despejando dados para a tabela `usuarios`
+-- Extraindo dados da tabela `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha_hash`, `telefone`, `tipo`, `data_cadastro`) VALUES
-(1, 'Usuário Teste', 'usuario@teste.com', '$2y$10$V1EjVg8IMVbTt2p8t76oy.kjq3qzdxNcHQbDgVqKtsQq1tpZsvJpi', '11999999999', 'cliente', '2025-12-10 19:01:22'),
-(2, 'Administrador', 'admin@teste.com', '$2y$10$4ju0suV80aFJqg2gdq5SDeoH6tVw7/2xNttYWcifAmMSSnWNlYrW6', '11988888888', 'admin', '2025-12-10 19:01:22');
+(1, 'Administrador', 'admin@teste.com', '$2y$10$P9HGK8ZYr.MAwYAQV9cGDeQkJwgO8m6aMWbesL0QDOjmhjNf8bNze', '51888888888', 'admin', '2026-02-13 18:15:49'),
+(2, 'Usuário Teste', 'usuario@teste.com', '$2y$10$7qYtZ5LlKZDMcKq6V8pqqOSlyiZ8u.NaKb3BEqfJGH4O/o0dsEq8u', '51999999999', 'cliente', '2026-02-13 18:15:09');
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices de tabela `agendamentos`
+-- Índices para tabela `agendamentos`
 --
 ALTER TABLE `agendamentos`
   ADD PRIMARY KEY (`id`),
@@ -155,27 +155,27 @@ ALTER TABLE `agendamentos`
   ADD KEY `profissional_id` (`profissional_id`);
 
 --
--- Índices de tabela `bloqueios_horarios`
+-- Índices para tabela `bloqueios_horarios`
 --
 ALTER TABLE `bloqueios_horarios`
   ADD PRIMARY KEY (`id`),
   ADD KEY `profissional_id` (`profissional_id`);
 
 --
--- Índices de tabela `faturamento`
+-- Índices para tabela `faturamento`
 --
 ALTER TABLE `faturamento`
   ADD PRIMARY KEY (`id`),
   ADD KEY `agendamento_id` (`agendamento_id`);
 
 --
--- Índices de tabela `profissionais`
+-- Índices para tabela `profissionais`
 --
 ALTER TABLE `profissionais`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `profissional_servico`
+-- Índices para tabela `profissional_servico`
 --
 ALTER TABLE `profissional_servico`
   ADD PRIMARY KEY (`id`),
@@ -183,20 +183,20 @@ ALTER TABLE `profissional_servico`
   ADD KEY `servico_id` (`servico_id`);
 
 --
--- Índices de tabela `servicos`
+-- Índices para tabela `servicos`
 --
 ALTER TABLE `servicos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `usuarios`
+-- Índices para tabela `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT para tabelas despejadas
+-- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
@@ -239,14 +239,14 @@ ALTER TABLE `servicos`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Restrições para tabelas despejadas
+-- Restrições para despejos de tabelas
 --
 
 --
--- Restrições para tabelas `agendamentos`
+-- Limitadores para a tabela `agendamentos`
 --
 ALTER TABLE `agendamentos`
   ADD CONSTRAINT `agendamentos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
@@ -254,19 +254,19 @@ ALTER TABLE `agendamentos`
   ADD CONSTRAINT `agendamentos_ibfk_3` FOREIGN KEY (`profissional_id`) REFERENCES `profissionais` (`id`);
 
 --
--- Restrições para tabelas `bloqueios_horarios`
+-- Limitadores para a tabela `bloqueios_horarios`
 --
 ALTER TABLE `bloqueios_horarios`
   ADD CONSTRAINT `bloqueios_horarios_ibfk_1` FOREIGN KEY (`profissional_id`) REFERENCES `profissionais` (`id`);
 
 --
--- Restrições para tabelas `faturamento`
+-- Limitadores para a tabela `faturamento`
 --
 ALTER TABLE `faturamento`
   ADD CONSTRAINT `faturamento_ibfk_1` FOREIGN KEY (`agendamento_id`) REFERENCES `agendamentos` (`id`);
 
 --
--- Restrições para tabelas `profissional_servico`
+-- Limitadores para a tabela `profissional_servico`
 --
 ALTER TABLE `profissional_servico`
   ADD CONSTRAINT `profissional_servico_ibfk_1` FOREIGN KEY (`profissional_id`) REFERENCES `profissionais` (`id`),
