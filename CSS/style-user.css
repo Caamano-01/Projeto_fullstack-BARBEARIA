@@ -398,17 +398,13 @@ nav a:hover {
 /******************************************************************/
 /************************** SERVICOS.HTML *************************/
 .servicos {
-    font-family: "Georgia", serif;
     text-align: center;
     background: white;
     margin: 0;
 }
 
-.servicos header{
-    font-size: 22px;
-}
-
 .container-servicos {
+    font-family: "Georgia", serif;
     width: 600px;
     margin: auto;
     margin-top: 40px;

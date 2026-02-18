@@ -85,7 +85,7 @@ canvas {
 
 /* SERVIÇOS.HTML */
 .btn-add-servico {
-    background-color: #a7a7a7;
+    background-color: #8f8f8f;
     color: #000000;
     border-radius: 10px;
     padding: 10px 20px;
@@ -118,13 +118,10 @@ canvas {
 }
 
 .btn-edit, .btn-delete {
-    background-color: #e0e0e0;
+    background-color: #b6b6b6;
     border: none;
     border-radius: 8px;
     padding: 5px 15px;
     font-size: 0.9rem;
     font-weight: 500;
 }
-
-.btn-delete:hover { background-color: #ffcccc; color: #cc0000; }
-.btn-edit:hover { background-color: #d0d0d0; }
