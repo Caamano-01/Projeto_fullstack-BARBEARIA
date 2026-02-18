@@ -48,7 +48,38 @@
             </div>
 
             <div class="services-container shadow-sm p-4" id="lista-servicos">
+
+            </div>
+        </div>
+
+        <!-- table add e edit -->
+         <div class="modal fade" id="modalServico" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitulo">Serviço</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formServico">
+                            <input type="hidden" id="servico-id">
+                            <div class="mb-3">
+                                <label class="form-label">Nome do Serviço</label>
+                                <input type="text" class="form-control" id="servico-nome" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Preço (R$)</label>
+                                <input type="number" step="0.01" class="form-control" id="servico-preco" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Duração (minutos)</label>
+                                <input type="number" class="form-control" id="servico-duracao" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Salvar Alterações</button>
+                        </form>
+                    </div>
                 </div>
+            </div>
         </div>
     </main>
 
@@ -62,48 +93,113 @@
 
 
     <!-- SCRIPTS -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
      <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // verificação de sessão e nome do usuário
+            // Verificação de sessão
             fetch('../../backend/routes/session.php')
                 .then(response => response.json())
                 .then(data => {
-                    const nameElement = document.querySelector('.user-name');
                     if (data.logado) {
-                        nameElement.textContent = data.nome; 
-                        carregarDashboard();
+                        document.querySelector('.user-name').textContent = data.nome; 
+                        carregarServicos();
                     } else {
                         window.location.href = "../../index.html";
                     }
-                })
-                .catch(error => console.error('Erro ao carregar sessão:', error));
+                });
 
-            // Carregar Serviços do Banco de Dados
-            fetch('../../backend/routes/servicos.php')
+            const container = document.getElementById('lista-servicos');
+
+            // Função para carregar a lista
+            window.carregarServicos = function() {
+                fetch('../../backend/routes/servicos.php')
+                    .then(res => res.json())
+                    .then(response => {
+                        if (response.success) {
+                            container.innerHTML = response.data.map(servico => `
+                                <div class="service-card d-flex align-items-center mb-3">
+                                    <div class="service-details flex-grow-1 ms-3">
+                                        <h4 class="mb-0">${servico.nome}</h4>
+                                    </div>
+                                    <div class="service-info text-center me-4">
+                                        <span class="d-block fw-bold fs-5">R$ ${parseFloat(servico.preco).toFixed(2).replace('.', ',')}</span>
+                                        <span class="text-muted small">${servico.duracao_minutos}min</span>
+                                    </div>
+                                    <div class="service-actions">
+                                        <button class="btn btn-edit me-2" onclick="editarServico(${servico.id}, '${servico.nome}', ${servico.preco}, ${servico.duracao_minutos})">Editar</button>
+                                        <button class="btn btn-delete" onclick="deletarServico(${servico.id})">Excluir</button>
+                                    </div>
+                                </div>
+                            `).join('');
+                        }
+                    });
+            }
+
+            // Instância do Modal do Bootstrap
+            const modalElement = document.getElementById('modalServico');
+            const modalBS = new bootstrap.Modal(modalElement);
+            const form = document.getElementById('formServico');
+
+            // Carregar lista inicial
+            carregarServicos();
+
+            // Função para abrir o modal (Modo Adicionar)
+            document.querySelector('.btn-add-servico').addEventListener('click', () => {
+                form.reset();
+                document.getElementById('servico-id').value = '';
+                document.getElementById('modalTitulo').innerText = 'Adicionar Novo Serviço';
+                modalBS.show();
+            });
+
+            // Função para abrir o modal (Modo Editar)
+            window.editarServico = function(id, nome, preco, duracao) {
+                document.getElementById('servico-id').value = id;
+                document.getElementById('servico-nome').value = nome;
+                document.getElementById('servico-preco').value = preco;
+                document.getElementById('servico-duracao').value = duracao;
+                document.getElementById('modalTitulo').innerText = 'Editar Serviço';
+                modalBS.show();
+            };
+
+            // Submissão do Formulário (AJAX)
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const dados = {
+                    id: document.getElementById('servico-id').value,
+                    nome: document.getElementById('servico-nome').value,
+                    preco: document.getElementById('servico-preco').value,
+                    duracao: document.getElementById('servico-duracao').value
+                };
+
+                fetch('../../backend/routes/servicos_acoes.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                })
                 .then(res => res.json())
-                .then(response => {
-                    const container = document.getElementById('lista-servicos');
-                    if (response.success) {
-                        container.innerHTML = response.data.map(servico => `
-                            <div class="service-card d-flex align-items-center mb-3">
-                                <div class="service-icon">
-                                    <img src="../../img/icone-servico.png" alt="Ícone">
-                                </div>
-                                <div class="service-details flex-grow-1 ms-3">
-                                    <h4 class="mb-0">${servico.nome}</h4>
-                                </div>
-                                <div class="service-info text-center me-4">
-                                    <span class="d-block fw-bold fs-5">R$ ${parseFloat(servico.preco).toFixed(2).replace('.', ',')}</span>
-                                    <span class="text-muted small">${servico.duracao_minutos}min</span>
-                                </div>
-                                <div class="service-actions">
-                                    <button class="btn btn-edit me-2">Editar</button>
-                                    <button class="btn btn-delete">Excluir</button>
-                                </div>
-                            </div>
-                        `).join('');
+                .then(res => {
+                    if (res.success) {
+                        modalBS.hide();
+                        carregarServicos(); // Atualiza a tabela ao fundo
+                    } else {
+                        alert("Erro ao salvar serviço.");
                     }
                 });
+            });
+
+            // Função Excluir (Mantida com confirm para segurança)
+            window.deletarServico = function(id) {
+                if (confirm("Deseja realmente excluir este serviço?")) {
+                    fetch('../../backend/routes/servicos_acoes.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'delete', id: id })
+                    })
+                    .then(res => res.json())
+                    .then(res => { if(res.success) carregarServicos(); });
+                }
+            };
         });
     </script>
 </body>
