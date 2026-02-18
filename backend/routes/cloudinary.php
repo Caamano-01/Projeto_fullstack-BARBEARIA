@@ -1,44 +1,37 @@
 <?php
-// Configurações do Cloudinary
-$cloud_name = 'Root';
-$api_key = '661713323243317';
-$api_secret = 'AnnZk5KvrZa6so1-vssJ-luFldU';
+header("Content-Type: application/json");
 
-// Arquivo enviado via formulário
-$foto = $_FILES['foto']['tmp_name'];
-$nome_original = $_FILES['foto']['name'];
+$cloud_name = 'dqsodebo9';
+$upload_preset = 'barbearia_senai';
 
-// URL de upload
-$url = "https://api.cloudinary.com/v1_1/$cloud_name/image/upload";
+if (!isset($_FILES['foto'])) {
+    echo json_encode(["success" => false, "error" => "Ficheiro não recebido"]);
+    exit;
+}
 
-// Dados do POST
-$post_fields = [
-    'file' => new CURLFile($foto),
-    'upload_preset' => '' // opcional, se você criar no Cloudinary
-];
-
-// Inicializa cURL
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_URL, "https://api.cloudinary.com/v1_1/$cloud_name/image/upload");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
-curl_setopt($ch, CURLOPT_USERPWD, $api_key . ":" . $api_secret); // autenticação básica
+curl_setopt($ch, CURLOPT_POSTFIELDS, [
+    'file' => new CURLFile($_FILES['foto']['tmp_name']),
+    'upload_preset' => $upload_preset
+]);
+// Ignora SSL para evitar erros em ambiente local (XAMPP)
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-// Executa o upload
 $response = curl_exec($ch);
+$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$err = curl_error($ch);
 curl_close($ch);
 
-// Converte a resposta JSON
-$data = json_decode($response, true);
-
-// URL da imagem
-$foto_url = $data['secure_url'] ?? null;
-
-if ($foto_url) {
-    echo "Upload feito com sucesso: $foto_url";
-    // Aqui você pode salvar no MySQL
+if ($err) {
+    echo json_encode(["success" => false, "error" => "Erro de rede: " . $err]);
 } else {
-    echo "Erro no upload: " . $response;
+    $res = json_decode($response, true);
+    if ($http_code === 200) {
+        echo json_encode(["success" => true, "url" => $res['secure_url']]);
+    } else {
+        echo json_encode(["success" => false, "error" => $res['error']['message'] ?? "Erro Cloudinary"]);
+    }
 }
-?>

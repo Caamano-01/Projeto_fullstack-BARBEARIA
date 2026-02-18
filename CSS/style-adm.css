@@ -83,7 +83,7 @@ canvas {
     margin-bottom: 20px;
 }
 
-/* SERVIÇOS.HTML */
+/* SERVIÇOS-ADM.HTML */
 .btn-add-servico {
     background-color: #8f8f8f;
     color: #000000;
@@ -124,4 +124,67 @@ canvas {
     padding: 5px 15px;
     font-size: 0.9rem;
     font-weight: 500;
+}
+
+/* PROFISSIONAIS-ADM.HTML */
+.object-fit-cover {
+    object-fit: cover;
+}
+
+.preview-container {
+    width: 120px;
+    height: 120px;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #eee;
+}
+
+.preview-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-profissional {
+    max-width: 280px; 
+    margin: auto;
+    transition: transform 0.2s;
+}
+
+.card-profissional:hover {
+    transform: translateY(-5px);
+}
+
+.img-profissional-container {
+    width: 100%;
+    height: 140px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.img-profissional-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.img-container {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 15px auto;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-profissional {
+    max-width: 260px;
+    margin: 0 auto;
+    border-radius: 15px !important;
 }

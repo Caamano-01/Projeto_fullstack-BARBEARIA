@@ -2,7 +2,6 @@
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
 
-// Ajuste o caminho conforme sua estrutura de pastas
 include_once '../config/db.php';
 
 $database = new Database();
@@ -10,7 +9,7 @@ $db = $database->connect();
 
 if ($db) {
     try {
-        $query = "SELECT nome, contato, foto_url, especialidade FROM profissionais WHERE ativo = 1";
+        $query = "SELECT nome, contato, foto_url FROM profissionais WHERE ativo = 1";
         $stmt = $db->prepare($query);
         $stmt->execute();
 
