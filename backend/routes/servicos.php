@@ -6,7 +6,7 @@ $db = new Database();
 $conn = $db->connect();
 
 try {
-    $query = "SELECT id, nome, preco, duracao_minutos
+    $query = "SELECT id, nome, descricao, preco, duracao_minutos
               FROM servicos
               WHERE ativo = 1
               ORDER BY preco ASC";
