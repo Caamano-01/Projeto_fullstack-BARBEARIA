@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13-Fev-2026 às 21:19
+-- Tempo de geração: 19-Fev-2026 às 17:46
 -- Versão do servidor: 10.4.24-MariaDB
 -- versão do PHP: 8.1.6
 
@@ -76,11 +76,17 @@ CREATE TABLE `faturamento` (
 CREATE TABLE `profissionais` (
   `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
-  `especialidade` varchar(100) DEFAULT NULL,
   `contato` varchar(50) DEFAULT NULL,
   `foto_url` varchar(255) DEFAULT NULL,
   `ativo` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `profissionais`
+--
+
+INSERT INTO `profissionais` (`id`, `nome`, `contato`, `foto_url`, `ativo`) VALUES
+(1, 'Daniel', '(51) 9876-54321', 'https://res.cloudinary.com/dqsodebo9/image/upload/v1771444200/ddznobwbtzlooy50igsh.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -93,6 +99,14 @@ CREATE TABLE `profissional_servico` (
   `profissional_id` int(11) NOT NULL,
   `servico_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `profissional_servico`
+--
+
+INSERT INTO `profissional_servico` (`id`, `profissional_id`, `servico_id`) VALUES
+(1, 1, 1),
+(2, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -114,8 +128,9 @@ CREATE TABLE `servicos` (
 --
 
 INSERT INTO `servicos` (`id`, `nome`, `descricao`, `preco`, `duracao_minutos`, `ativo`) VALUES
-(1, 'Corte Tradicional', 'Corte de cabelo clássico para todas as idades', '40.00', 30, 1),
-(2, 'Barba com Hidratação', 'Modelagem e tratamento de barba com produto hidratante', '50.00', 25, 1);
+(1, 'Corte', 'Corte de cabelo clássico para todas as idades', '40.00', 30, 1),
+(2, 'Barba com Hidratação', 'Modelagem e tratamento de barba com produto hidratante', '50.00', 25, 1),
+(3, 'Corte + Sombrancelha', 'Corte de cabelo clássico e sombrancelha', '55.00', 45, 1);
 
 -- --------------------------------------------------------
 
@@ -221,19 +236,19 @@ ALTER TABLE `faturamento`
 -- AUTO_INCREMENT de tabela `profissionais`
 --
 ALTER TABLE `profissionais`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `profissional_servico`
 --
 ALTER TABLE `profissional_servico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `servicos`
 --
 ALTER TABLE `servicos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`

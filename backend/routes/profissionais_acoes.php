@@ -54,3 +54,4 @@ try {
     if ($conn->inTransaction()) $conn->rollBack();
     echo json_encode(["success" => false, "error" => "Erro no Banco: " . $e->getMessage()]);
 }
+?>

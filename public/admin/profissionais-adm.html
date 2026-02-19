@@ -49,7 +49,7 @@
                 </button>
             </div>
 
-            <div class="row g-4" id="lista-profissionais">
+            <div class="row g-2" id="lista-profissionais">
                 </div>
         </div>
     </main>
@@ -193,10 +193,10 @@
 
             function criarCardProfissional(p) {
                 const col = document.createElement('div');
-                col.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-4";
+                col.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-2";
 
                 col.innerHTML = `
-                    <div class="card h-100 border-0 shadow-sm p-3 text-center card-profissional">
+                    <div class="card h-150 border-0 shadow-sm p-3 text-center card-profissional">
                         <div class="img-profissional-container">
                             <img src="${p.foto_url || imgDefault}" 
                                 alt="Foto de ${p.nome}"
@@ -216,7 +216,6 @@
 
                 col.querySelector('.btn-editar')
                     .addEventListener('click', () => abrirEdicao(p));
-
                 return col;
             }
 

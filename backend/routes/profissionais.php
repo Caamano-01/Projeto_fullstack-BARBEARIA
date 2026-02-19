@@ -9,7 +9,7 @@ $db = $database->connect();
 
 if ($db) {
     try {
-        $query = "SELECT nome, contato, foto_url FROM profissionais WHERE ativo = 1";
+        $query = "SELECT id, nome, contato, foto_url FROM profissionais WHERE ativo = 1";
         $stmt = $db->prepare($query);
         $stmt->execute();
 
