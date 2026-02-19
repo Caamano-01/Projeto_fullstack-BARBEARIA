@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19-Fev-2026 às 17:46
+-- Tempo de geração: 19-Fev-2026 às 20:54
 -- Versão do servidor: 10.4.24-MariaDB
 -- versão do PHP: 8.1.6
 
@@ -37,6 +37,13 @@ CREATE TABLE `agendamentos` (
   `status` enum('pendente','confirmado','concluido','cancelado') DEFAULT 'pendente',
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `agendamentos`
+--
+
+INSERT INTO `agendamentos` (`id`, `usuario_id`, `servico_id`, `profissional_id`, `data`, `hora`, `status`, `criado_em`) VALUES
+(1, 2, 2, 3, '2026-02-27', '14:00:00', 'confirmado', '2026-02-19 19:49:44');
 
 -- --------------------------------------------------------
 
@@ -86,7 +93,9 @@ CREATE TABLE `profissionais` (
 --
 
 INSERT INTO `profissionais` (`id`, `nome`, `contato`, `foto_url`, `ativo`) VALUES
-(1, 'Daniel', '(51) 9876-54321', 'https://res.cloudinary.com/dqsodebo9/image/upload/v1771444200/ddznobwbtzlooy50igsh.jpg', 1);
+(1, 'Márcio', '(51) 9876-54321', 'https://res.cloudinary.com/dqsodebo9/image/upload/v1771444200/ddznobwbtzlooy50igsh.jpg', 1),
+(2, 'Daniel', '(51)1234-56789', 'https://res.cloudinary.com/dqsodebo9/image/upload/v1771521033/gvy9eucggphbw3xioijk.jpg', 1),
+(3, 'André', '(51) 9976-55321', 'https://res.cloudinary.com/dqsodebo9/image/upload/v1771521060/zrs1sruddc8bcqbcezjd.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -105,8 +114,12 @@ CREATE TABLE `profissional_servico` (
 --
 
 INSERT INTO `profissional_servico` (`id`, `profissional_id`, `servico_id`) VALUES
-(1, 1, 1),
-(2, 1, 2);
+(4, 1, 1),
+(5, 1, 2),
+(6, 2, 1),
+(7, 2, 3),
+(8, 3, 2),
+(9, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -130,7 +143,8 @@ CREATE TABLE `servicos` (
 INSERT INTO `servicos` (`id`, `nome`, `descricao`, `preco`, `duracao_minutos`, `ativo`) VALUES
 (1, 'Corte', 'Corte de cabelo clássico para todas as idades', '40.00', 30, 1),
 (2, 'Barba com Hidratação', 'Modelagem e tratamento de barba com produto hidratante', '50.00', 25, 1),
-(3, 'Corte + Sombrancelha', 'Corte de cabelo clássico e sombrancelha', '55.00', 45, 1);
+(3, 'Corte + Sombrancelha', 'Corte de cabelo clássico e sombrancelha', '55.00', 40, 1),
+(4, 'Corte + Barba com Hidratação', 'Corte de cabelo clássico e barba feita com hidratação', '80.00', 50, 1);
 
 -- --------------------------------------------------------
 
@@ -218,7 +232,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `agendamentos`
 --
 ALTER TABLE `agendamentos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `bloqueios_horarios`
@@ -236,19 +250,19 @@ ALTER TABLE `faturamento`
 -- AUTO_INCREMENT de tabela `profissionais`
 --
 ALTER TABLE `profissionais`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `profissional_servico`
 --
 ALTER TABLE `profissional_servico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `servicos`
 --
 ALTER TABLE `servicos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`

@@ -217,3 +217,76 @@ canvas {
     border-radius: 15px !important;
     padding: 20px !important;
 }
+
+/* AGENDA-ADM.HTML */
+.agenda-card {
+    background-color: #f2f2f2;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: none;
+    max-width: 900px;
+}
+
+.agenda-card .barbeiro-header {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.agenda-card table {
+    width: 100%;
+    margin-bottom: 0;
+    background-color: transparent;
+}
+
+.agenda-card thead th {
+    border-bottom: 2px solid #000000 !important; 
+    color: #000000;
+    font-weight: bold;
+    padding-bottom: 10px;
+    text-transform: none;
+}
+
+.agenda-card tbody td {
+    padding: 15px 0;
+    vertical-align: middle;
+    font-size: 1.05rem;
+    color: #333;
+}
+
+.agenda-card .text-end {
+    line-height: 1.4;
+}
+
+.agenda-card .text-end b {
+    font-size: 1.1rem;
+    display: block;
+}
+
+.no-appointments {
+    text-align: center;
+    padding: 60px;
+    border: 2px dashed #ccc;
+    border-radius: 20px;
+    background-color: #fafafa;
+    color: #999;
+    margin-top: 20px;
+}
+
+.no-appointments h3 {
+    font-weight: bold;
+    color: #666;
+}
+
+#data-agenda {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}

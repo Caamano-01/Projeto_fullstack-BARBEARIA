@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços agendados</title>
+    <!-- icon -->
+    <link rel="icon" href="../../img/barbershop.png" type="image/png">
+
+    <!-- LINKS -->
+    <!-- css --><link rel="stylesheet" href="../../CSS/style-adm.css">
+    <!-- bootstrap --><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- SIDEBAR -->
+     <div class="sidebar">
+        <!-- logo-->
+         <div class="text-center mb-4 logo">
+            <img src="../../img/Logo_escuro.png" class="img-fluid" alt="Logo">
+         </div>
+
+        <!-- nav -->
+         <nav class="menu">
+            <a href="dashboard_admin.html">Dashboard</a>
+            <a href="servicos-adm.html">Serviços</a>
+            <a href="profissionais-adm.html">Profissionais</a>
+            <a href="agenda-adm.html" class="active">Serviços agendados</a>
+            <a href="horarios-adm.html">Horários</a>
+            <a href="../../index.html">Sair</a>
+         </nav>
+
+        <!-- usuário -->
+         <div class="user-info">
+            <span class="user-label">Usuário:</span>
+            <span class="user-name"></span>
+         </div>
+     </div>
+
+    <!-- MAIN -->
+     <main class="main-content">
+         <header class="mb-4">
+            <h1 class="fw-bold">Serviços agendados</h1>
+            <p class="text-muted">Selecione uma data no calendário para ver os horários</p>
+
+            <div class="mb-4" style="max-width: 300px;">
+               <label for="data-agenda" class="form-label fw-bold">Selecionar data:</label>
+               <input type="date" id="data-agenda" class="form-control" onchange="carregarAgendamentos()">
+            </div>
+         </header>
+
+         <div id="container-agendamentos">
+            </div>
+     </main>
+
+    <!-- SCRIPTS -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+     <script>
+         document.addEventListener('DOMContentLoaded', () => {
+            // Define a data de hoje por padrão
+            const hoje = new Date().toISOString().split('T')[0];
+            const inputData = document.getElementById('data-agenda');
+            if (inputData) inputData.value = hoje;
+
+            // Verificação de sessão
+            fetch('../../backend/routes/session.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.logado) {
+                        document.querySelector('.user-name').textContent = data.nome;
+                        carregarAgendamentos();
+                    } else {
+                        window.location.href = "../../index.html";
+                    }
+                })
+                .catch(() => carregarAgendamentos()); // Fallback
+         });
+
+         function carregarAgendamentos() {
+            const dataEscolhida = document.getElementById('data-agenda').value;
+            const container = document.getElementById('container-agendamentos');
+
+            if (!container) return;
+
+            container.innerHTML = '<p class="text-center text-muted">A carregar...</p>';
+
+            fetch(`../../backend/routes/agendamentos.php?data=${dataEscolhida}`)
+               .then(res => {
+                  if (!res.ok) throw new Error("Erro na rede");
+                  return res.json();
+               })
+               .then(data => {
+                     container.innerHTML = ''; 
+
+                     // Verifica se o PHP retornou erro ou se a lista está vazia
+                     if (!data || data.length === 0 || data.error) {
+                        const dataFormatada = dataEscolhida.split('-').reverse().join('/');
+                        container.innerHTML = `
+                           <div class="text-center p-5 mt-3" style="border: 2px dashed #ccc; border-radius: 15px; background-color: #fafafa;">
+                                 <h3 class="text-muted fw-bold">Não há agendamentos</h3>
+                                 <p class="text-muted mb-0">Nenhum serviço marcado para o dia ${dataFormatada}.</p>
+                           </div>`;
+                        return;
+                     }
+
+                     // Renderiza os cartões de agendamento
+                     data.forEach(item => {
+                        const horaFormatada = item.hora ? item.hora.substring(0, 5) : "--:--";
+                        const dataBR = item.data ? item.data.split('-').reverse().join('/') : "";
+
+                        container.innerHTML += `
+                           <div class="agenda-card mb-4" style="background-color: #f2f2f2; border-radius: 20px; padding: 20px; border-left: 5px solid #000; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                                 <div class="text-center fw-bold mb-3">Barbeiro: ${item.profissional_nome}</div>
+                                 <div class="table-responsive">
+                                    <table class="table table-borderless m-0">
+                                       <thead>
+                                             <tr style="border-bottom: 2px solid #000;">
+                                                <th>Cliente</th>
+                                                <th class="text-center">Serviço</th>
+                                                <th class="text-end">Data/hora</th>
+                                             </tr>
+                                       </thead>
+                                       <tbody>
+                                             <tr>
+                                                <td>${item.cliente_nome}</td>
+                                                <td class="text-center">${item.servico_nome}</td>
+                                                <td class="text-end">${dataBR}<br><b>${horaFormatada}h</b></td>
+                                             </tr>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                           </div>`;
+                     });
+               })
+               .catch(err => {
+                     console.error("Erro ao buscar dados:", err);
+                     container.innerHTML = '<div class="alert alert-danger">Erro ao carregar dados. Verifique se o ficheiro agendamentos.php existe na pasta correta.</div>';
+               });
+         }
+      </script>
+</body>
+</html>
