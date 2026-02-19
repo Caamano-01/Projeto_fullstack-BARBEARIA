@@ -135,7 +135,7 @@ canvas {
 }
 
 .btn-edit, .btn-delete {
-    background-color: #b6b6b6;
+    background-color: #bdbdbd !important;
     border: none;
     border-radius: 8px;
     padding: 5px 15px;
@@ -143,6 +143,21 @@ canvas {
     font-weight: 500;
 }
 
+.service-actions .btn-edit:hover {
+    background-color: #5a5a5a !important;
+    color: #ffffff !important;
+    cursor: pointer;
+}
+
+.service-actions .btn-delete:hover {
+    background-color: #c82333 !important;
+    color: #ffffff !important;
+    cursor: pointer;
+}
+
+.btn-edit:active, .btn-delete:active {
+    transform: scale(0.95);
+}
 
 /* PROFISSIONAIS-ADM.HTML */
 .object-fit-cover {
