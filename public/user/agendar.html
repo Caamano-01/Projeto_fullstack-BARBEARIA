@@ -28,9 +28,152 @@
         </nav>
     </header>
 
+    <!-- MAIN -->
+    <main class="container-horarios">
+        <h2 class="titulo">📅 Reserve seu Horário</h2>
+
+        <form id="form-agendamento" action="fazer_agendamento.php" method="POST" class="agendamento-flow">
+            <div class="step-container">
+                <label><i class="fas fa-cut"></i> 1. Qual o serviço de hoje?</label>
+                <select name="servico_id" id="servico_id" required onchange="buscarProfissionais()">
+                    <option value="" disabled selected>Selecione um serviço</option>
+                    <option value="1" data-preco="40.00">Corte Clássico - R$ 40,00</option>
+                    <option value="2" data-preco="50.00">Barba Premium - R$ 50,00</option>
+                    <option value="4" data-preco="80.00">Combo: Corte + Barba - R$ 80,00</option>
+                </select>
+            </div>
+
+            <div class="step-container" id="div-profissional" style="display:none;">
+                <label>2. Com qual especialista?</label>
+                <select name="profissional_id" id="profissional_id" required onchange="resetData()">
+                    <option value="">Selecione o barbeiro</option>
+                </select>
+            </div>
+
+            <div class="step-container" id="secao-calendario" style="display:none;">
+                <label>3. Quando?</label>
+                <input type="date" name="data" id="data_agendamento" required onchange="buscarHorarios()" min="<?= date('Y-m-d') ?>">
+            </div>
+
+            <div id="secao-horarios" style="display:none;">
+                <label>4. Escolha a hora:</label>
+                <div class="grade-horarios" id="container-slots"></div>
+            </div>
+
+            <input type="hidden" name="hora" id="hora_selecionada" required>
+            
+            <div id="resumo-card" class="resumo-agendamento" style="display:none;">
+                <p id="resumo-texto"></p>
+                <button type="submit" class="btn-confirmar" id="btn-finalizar">Confirmar Reserva</button>
+            </div>
+        </form>
+    </main>
+
     <!-- RODAPÉ -->
     <footer>
         <p>&copy; 2025 Senai Barbearia. Todos os direitos reservados.</p>
     </footer>
+
+    <script>
+        const API_URL = '../../backend/routes/obter_dados.php';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarServicos();
+            // Define a data mínima como hoje
+            document.getElementById('data_agendamento').min = new Date().toISOString().split('T')[0];
+        });
+
+        function carregarServicos() {
+            fetch(`${API_URL}?acao=servicos`)
+                .then(res => res.json())
+                .then(dados => {
+                    const select = document.getElementById('servico_id');
+                    dados.forEach(s => {
+                        const option = document.createElement('option');
+                        option.value = s.id;
+                        option.text = `${s.nome} - R$ ${parseFloat(s.preco).toFixed(2)}`;
+                        select.appendChild(option);
+                    });
+                });
+        }
+
+        function buscarProfissionais() {
+            const servicoId = document.getElementById('servico_id').value;
+            if (!servicoId) return;
+
+            fetch(`../../backend/routes/obter_dados.php?acao=profissionais&servico_id=${servicoId}`)
+                .then(res => res.json())
+                .then(dados => {
+                    const select = document.getElementById('profissional_id');
+                    select.innerHTML = '<option value=\"\">Selecione um profissional</option>';
+
+                    // VERIFICAÇÃO DE SEGURANÇA:
+                    if (Array.isArray(dados)) {
+                        dados.forEach(p => {
+                            const option = document.createElement('option');
+                            option.value = p.id;
+                            option.text = p.nome;
+                            select.appendChild(option);
+                        });
+                        document.getElementById('secao-profissional').style.display = 'block';
+                    } else {
+                        console.error("O PHP não retornou um array:", dados);
+                        alert("Erro ao carregar profissionais. Verifique o console.");
+                    }
+                })
+                .catch(err => console.error("Erro na requisição:", err));
+        }
+
+        function buscarHorarios() {
+            const proId = document.getElementById('profissional_id').value;
+            const data = document.getElementById('data_agendamento').value;
+            const container = document.getElementById('container-slots');
+            const secaoHorarios = document.getElementById('secao-horarios');
+
+            if(!proId || !data) return;
+
+            fetch(`${API_URL}?acao=horarios&profissional_id=${proId}&data=${data}`)
+                .then(res => res.json())
+                .then(ocupados => {
+                    container.innerHTML = '';
+                    secaoHorarios.style.display = 'block';
+                    
+                    // Horários das 09:00 às 19:00
+                    for(let h = 9; h <= 19; h++) {
+                        ['00', '30'].forEach(m => {
+                            const hora = `${h.toString().padStart(2, '0')}:${m}`;
+                            const btn = document.createElement('button');
+                            btn.type = 'button';
+                            btn.className = 'slot-hora';
+                            if(ocupados.includes(hora)) {
+                                btn.disabled = true;
+                                btn.innerText = 'Ocupado';
+                            } else {
+                                btn.innerText = hora;
+                                btn.onclick = (e) => selecionarHora(hora, e.target);
+                            }
+                            container.appendChild(btn);
+                        });
+                    }
+                });
+        }
+
+        function selecionarHora(hora, elemento) {
+            document.getElementById('hora_selecionada').value = hora;
+            document.querySelectorAll('.slot-hora').forEach(b => b.classList.remove('selecionado'));
+            elemento.classList.add('selecionado');
+            
+            const servicoNome = document.querySelector('#servico_id option:checked').text;
+            const resumo = document.getElementById('resumo-card');
+            document.getElementById('resumo-texto').innerHTML = `<strong>Resumo:</strong> ${servicoNome} às ${hora}`;
+            resumo.style.display = 'block';
+        }
+
+        function resetData() {
+            document.getElementById('data_agendamento').value = '';
+            document.getElementById('secao-horarios').style.display = 'none';
+            document.getElementById('resumo-card').style.display = 'none';
+        }
+    </script>
 </body>
 </html>

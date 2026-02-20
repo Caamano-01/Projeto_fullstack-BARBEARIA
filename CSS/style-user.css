@@ -277,7 +277,7 @@ nav a:hover {
     background-size: cover;
     background-position: center;
     opacity: 0;
-    transition: opacity 1.5s ease-in-out;
+    transition: opacity 1s ease-in-out;
 }
 
 .slide.active {
@@ -794,6 +794,81 @@ nav a:hover {
     border: 1px solid black;
     border-radius: 5px;
     padding: 10px;
+}
+
+.grade-horarios {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 12px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.slot-hora {
+    background-color: #fff;
+    color: #333;
+    border: 2px solid #000;
+    padding: 12px 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.slot-hora:hover:not(:disabled) {
+    background-color: #000;
+    color: #fff;
+}
+
+.slot-hora.selecionado {
+    background-color: #00C060;
+    border-color: #00C060;
+    color: white;
+}
+
+.slot-hora:disabled {
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+    color: #adb5bd;
+    cursor: not-allowed;
+    text-decoration: line-through;
+    font-size: 0.8rem;
+}
+
+.resumo-agendamento {
+    background: #000;
+    color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slideUp 0.4s ease-out;
+}
+
+.btn-confirmar {
+    background-color: #00C060;
+    color: #000;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.btn-confirmar:hover {
+    background-color: #00e070;
+    transform: scale(1.05);
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /**********************************************************************/

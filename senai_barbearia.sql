@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 20-Fev-2026 às 19:12
+-- Tempo de geração: 20-Fev-2026 às 21:22
 -- Versão do servidor: 10.4.24-MariaDB
 -- versão do PHP: 8.1.6
 
@@ -148,7 +148,8 @@ INSERT INTO `servicos` (`id`, `nome`, `descricao`, `preco`, `duracao_minutos`, `
 (1, 'Corte', 'Corte de cabelo clássico para todas as idades', '40.00', 30, 1),
 (2, 'Barba com Hidratação', 'Modelagem e tratamento de barba com produto hidratante', '50.00', 25, 1),
 (3, 'Corte + Sombrancelha', 'Corte de cabelo clássico e sombrancelha', '55.00', 40, 1),
-(4, 'Corte + Barba com Hidratação', 'Corte de cabelo clássico e barba feita com hidratação', '80.00', 50, 1);
+(4, 'Corte + Barba com Hidratação', 'Corte de cabelo clássico e barba feita com hidratação', '80.00', 50, 1),
+(19, 'Sombrancelha', 'Sobrancelha feita com cera', '20.00', 20, 1);
 
 -- --------------------------------------------------------
 
@@ -270,7 +271,7 @@ ALTER TABLE `profissional_servico`
 -- AUTO_INCREMENT de tabela `servicos`
 --
 ALTER TABLE `servicos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
