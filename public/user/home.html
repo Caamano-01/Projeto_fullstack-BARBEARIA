@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="../../CSS/style-user.css">
 </head>
 <body class="home">
+    <!-- IMAGENS DO CARROUSEL DE FUNDO -->
+     <div class="background-carousel">
+        <div class="slide active" style="background-image: url('../../img/fundo_home.jpg');"></div>
+        <div class="slide" style="background-image: url('../../img/fundo_home-2.jpg');"></div>
+        <div class="slide" style="background-image: url('../../img/fundo_home-3.jpg');"></div>
+     </div>
+
     <!-- CABEÇALHO -->
     <header>
         <div class="logo-container">
@@ -41,5 +48,24 @@
     <footer>
         <p>&copy; 2025 Senai Barbearia. Todos os direitos reservados.</p>
     </footer>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        function nextSlide() {
+            // Remove a classe ativa da imagem atual
+            slides[currentSlide].classList.remove('active');
+            
+            // Calcula o próximo índice (volta ao zero se chegar ao fim)
+            currentSlide = (currentSlide + 1) % slides.length;
+            
+            // Adiciona a classe ativa na nova imagem
+            slides[currentSlide].classList.add('active');
+        }
+
+        // Define o intervalo de 5 segundos (5000 milissegundos)
+        setInterval(nextSlide, 5000);
+    </script>
 </body>
 </html>
