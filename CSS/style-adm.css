@@ -218,6 +218,18 @@ canvas {
     padding: 20px !important;
 }
 
+.btn-delete {
+    margin-top: 8px;
+    border-radius: 8px;
+    transition: 0.3s;
+    font-weight: 600;
+}
+
+.btn-delete:hover {
+    background-color: #a71d2a !important;
+    transform: translateY(-2px);
+}
+
 /* AGENDA-ADM.HTML */
 .agenda-card {
     background-color: #f2f2f2;

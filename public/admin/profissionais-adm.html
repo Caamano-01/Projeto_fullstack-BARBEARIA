@@ -72,7 +72,7 @@
                             <label for="prof-foto" class="btn btn-outline-dark btn-sm">
                                 <i class="bi bi-camera"></i> Alterar Foto
                             </label>
-                            <input type="file" id="prof-foto" class="d-none" accept="image/*">
+                            <input type="file" id="prof-foto" class="d-none" accept="image/*" required>
                         </div>
 
                         <div class="mb-3">
@@ -82,13 +82,22 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold small">WhatsApp</label>
-                            <input type="text" id="prof-whats" class="form-control" placeholder="(00) 00000-0000">
+                            <input type="text" id="prof-whats" class="form-control" placeholder="(00) 00000-0000" required>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label fw-bold small">Especialidades</label>
                             <div id="lista-especialidades-check" class="p-3 border rounded bg-light" style="max-height: 150px; overflow-y: auto;">
                                 </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">E-mail (Login do Profissional)</label>
+                            <input type="email" id="prof-email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Senha de Acesso</label>
+                            <input type="password" id="prof-senha" class="form-control" required>
                         </div>
 
                         <button type="submit" class="btn btn-dark w-100 py-2" id="btnSalvar">Salvar Profissional</button>
@@ -206,9 +215,12 @@
                         <h6 class="fw-bold mb-1">${escapeHTML(p.nome)}</h6>
                         <p class="text-muted small mb-3">${escapeHTML(p.contato || 'Sem contato')}</p>
                         
-                        <div class="mt-auto">
-                            <button class="btn btn-dark btn-sm w-100 btn-editar">
+                        <div class="mt-auto d-grid gap-2"> 
+                            <button class="btn btn-dark btn-sm btn-editar">
                                 Editar
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="deletarProfissional(${p.id})">
+                                Excluir Profissional
                             </button>
                         </div>
                     </div>
@@ -332,25 +344,24 @@
                     let fotoFinal = document.getElementById('img-target').src;
                     const file = document.getElementById('prof-foto').files[0];
 
+                    // Upload para Cloudinary (se houver novo arquivo)
                     if (file) {
                         const fd = new FormData();
                         fd.append('foto', file);
-
-                        const cloud = await fetch(API.cloudinary, {
-                            method: 'POST',
-                            body: fd
-                        }).then(r => r.json());
-
-                        if (cloud.success) {
-                            fotoFinal = cloud.url;
-                        }
+                        const cloudRes = await fetch(API.cloudinary, { method: 'POST', body: fd });
+                        const cloud = await cloudRes.json();
+                        if (cloud.success) fotoFinal = cloud.url;
                     }
 
+                    // Montagem do Payload com os IDs corretos do seu HTML
                     const payload = {
                         id: document.getElementById('prof-id').value,
-                        nome: document.getElementById('prof-nome').value.trim(),
-                        whatsapp: document.getElementById('prof-whats').value.trim(),
+                        nome: document.getElementById('prof-nome').value,
+                        whatsapp: document.getElementById('prof-whats').value,
                         foto_url: fotoFinal,
+                        // Campos para criar o acesso ADM (Garanta que esses IDs existam no seu Modal HTML)
+                        email: document.getElementById('prof-email')?.value || '', 
+                        senha: document.getElementById('prof-senha')?.value || '',
                         servicos: Array.from(document.querySelectorAll('.check-servico:checked'))
                                     .map(c => parseInt(c.value))
                     };
@@ -363,20 +374,21 @@
 
                     const result = await res.json();
 
-                    if (!result.success) {
-                        throw new Error("Erro ao salvar");
+                    if (result.success) {
+                        modalBS.hide();
+                        await carregarProfissionais();
+                        alert("Sucesso!");
+                    } else {
+                        alert("Erro: " + result.error);
                     }
-
-                    modalBS.hide();
-                    await carregarProfissionais();
 
                 } catch (err) {
                     console.error(err);
                     alert("Erro ao salvar profissional.");
+                } finally {
+                    btnSalvar.disabled = false;
+                    btnSalvar.innerText = "Salvar Profissional";
                 }
-
-                btnSalvar.disabled = false;
-                btnSalvar.innerText = "Salvar Profissional";
             });
 
             /* =========================
@@ -393,6 +405,32 @@
                 }[m]));
             }
 
+            /* =========================
+            EXCLUIR PROFISSIONAL
+            ========================== */
+            window.deletarProfissional = async function(id) {
+                if (confirm("Deseja realmente excluir este profissional? Esta ação não pode ser desfeita.")) {
+                    try {
+                        const res = await fetch('../../backend/routes/profissionais_acoes.php', {
+                            method: 'DELETE', // Vamos usar o método DELETE
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id: id })
+                        });
+
+                        const result = await res.json();
+
+                        if (result.success) {
+                            alert("Profissional excluído com sucesso!");
+                            location.reload(); // Recarrega a lista
+                        } else {
+                            alert("Erro: " + result.error);
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        alert("Erro ao tentar excluir o profissional.");
+                    }
+                }
+            };
         });
         </script>
 </body>

@@ -5,7 +5,52 @@ require_once __DIR__ . '/../config/db.php';
 $db = new Database();
 $conn = $db->connect();
 
-// Lê o corpo da requisição JSON
+$method = $_SERVER['REQUEST_METHOD'];
+
+// --- LÓGICA DE EXCLUSÃO (DELETE) ---
+if ($method === 'DELETE') {
+    try {
+        $json = file_get_contents("php://input");
+        $data = json_decode($json, true);
+        $id = $data['id'] ?? null;
+
+        if (!$id) {
+            echo json_encode(["success" => false, "error" => "ID não fornecido"]);
+            exit;
+        }
+
+        $conn->beginTransaction();
+
+        // buscar o usuario_id associado para excluir o login também
+        $stmtSearch = $conn->prepare("SELECT usuario_id FROM profissionais WHERE id = ?");
+        $stmtSearch->execute([$id]);
+        $prof = $stmtSearch->fetch(PDO::FETCH_ASSOC);
+
+        // Deletar associações de serviços (FK)
+        $stmtDelRel = $conn->prepare("DELETE FROM profissional_servico WHERE profissional_id = ?");
+        $stmtDelRel->execute([$id]);
+
+        // Deletar o registro do profissional
+        $stmt = $conn->prepare("DELETE FROM profissionais WHERE id = ?");
+        $stmt->execute([$id]);
+
+        // Deletar o usuário (login) se ele existir
+        if ($prof && $prof['usuario_id']) {
+            $stmtUser = $conn->prepare("DELETE FROM usuarios WHERE id = ?");
+            $stmtUser->execute([$prof['usuario_id']]);
+        }
+
+        $conn->commit();
+        echo json_encode(["success" => true]);
+        exit;
+    } catch (Exception $e) {
+        $conn->rollBack();
+        echo json_encode(["success" => false, "error" => $e->getMessage()]);
+        exit;
+    }
+}
+
+// --- LÓGICA DE CRIAÇÃO / EDIÇÃO (POST) ---
 $json = file_get_contents("php://input");
 $data = json_decode($json, true);
 
@@ -19,27 +64,34 @@ try {
 
     $id = !empty($data['id']) ? $data['id'] : null;
     $nome = $data['nome'];
-    $contato = $data['whatsapp']; // Recebe 'whatsapp' do JS e guarda como contato
+    $email = $data['email'] ?? null;
+    $senha = $data['senha'] ?? null;
+    $contato = $data['whatsapp']; 
     $foto_url = $data['foto_url'];
     $servicos = isset($data['servicos']) ? $data['servicos'] : [];
 
-    if ($id) {
-        // MODO EDIÇÃO: Usa a coluna 'contato' conforme o seu SQL
+    if (!$id) {
+        // Criar o Usuário Admin
+        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+        $stmtUser = $conn->prepare("INSERT INTO usuarios (nome, email, senha_hash, telefone, tipo) VALUES (?, ?, ?, ?, 'admin')");
+        $stmtUser->execute([$nome, $email, $senha_hash, $contato]);
+        $usuario_id = $conn->lastInsertId();
+
+        // Criar o Profissional vinculado a esse usuario_id
+        $stmt = $conn->prepare("INSERT INTO profissionais (nome, contato, foto_url, usuario_id, ativo) VALUES (?, ?, ?, ?, 1)");
+        $stmt->execute([$nome, $contato, $foto_url, $usuario_id]);
+        $profissional_id = $conn->lastInsertId();
+    } else {
+        // MODO EDIÇÃO
         $stmt = $conn->prepare("UPDATE profissionais SET nome = ?, contato = ?, foto_url = ? WHERE id = ?");
         $stmt->execute([$nome, $contato, $foto_url, $id]);
-
-        // Limpa especialidades antigas
+        
         $stmtDel = $conn->prepare("DELETE FROM profissional_servico WHERE profissional_id = ?");
         $stmtDel->execute([$id]);
         $profissional_id = $id;
-    } else {
-        // MODO CRIAÇÃO: Usa a coluna 'contato'
-        $stmt = $conn->prepare("INSERT INTO profissionais (nome, contato, foto_url, ativo) VALUES (?, ?, ?, 1)");
-        $stmt->execute([$nome, $contato, $foto_url]);
-        $profissional_id = $conn->lastInsertId();
     }
 
-    // Insere as especialidades na tabela intermediária
+    // Insere as especialidades (serviços)
     if (!empty($servicos)) {
         $stmtServ = $conn->prepare("INSERT INTO profissional_servico (profissional_id, servico_id) VALUES (?, ?)");
         foreach ($servicos as $servico_id) {
@@ -48,10 +100,9 @@ try {
     }
 
     $conn->commit();
-    echo json_encode(["success" => true, "id" => $profissional_id]);
-
+    echo json_encode(["success" => true]);
 } catch (Exception $e) {
     if ($conn->inTransaction()) $conn->rollBack();
-    echo json_encode(["success" => false, "error" => "Erro no Banco: " . $e->getMessage()]);
+    echo json_encode(["success" => false, "error" => $e->getMessage()]);
 }
 ?>

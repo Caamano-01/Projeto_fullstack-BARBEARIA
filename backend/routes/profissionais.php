@@ -9,7 +9,10 @@ $db = $database->connect();
 
 if ($db) {
     try {
-        $query = "SELECT id, nome, contato, foto_url FROM profissionais WHERE ativo = 1";
+        $query = "SELECT p.id, p.nome, p.contato, p.foto_url, u.email 
+          FROM profissionais p 
+          LEFT JOIN usuarios u ON p.nome = u.nome 
+          WHERE p.ativo = 1";
         $stmt = $db->prepare($query);
         $stmt->execute();
 
