@@ -10,7 +10,7 @@
 </head>
 <body class="servicos">
     <!-- CABEÇALHO -->
-    <header>
+    <header class="fixed">
         <div class="logo-container">
             <img src="../../img/Logo_escuro.png" alt="Logo Senai Barbearia">
         </div>
@@ -67,10 +67,15 @@
                 servicos.forEach(s => {
                     container.innerHTML += `
                         <div class="card">
-                            <div>${s.nome}</div>
-                            <div class="preco">
-                                R$ ${parseFloat(s.preco).toFixed(2).replace('.', ',')}<br>
-                                <span class="tempo">${s.duracao_minutos}min</span>
+                            <div class="service-details">
+                                <h4>${s.nome}</h4>
+                                <p class="service-description">${s.descricao || 'Serviço profissional de alta qualidade.'}</p>
+                            </div>
+                            
+                            <div class="service-info">
+                                <span class="preco">R$ ${parseFloat(s.preco).toFixed(2).replace('.', ',')}</span>
+                                <span class="tempo">${s.duracao_minutos} min</span>
+                                <a href="../user/agendar.html" class="btn-agendar-card">Agendar</a>
                             </div>
                         </div>
                     `;
