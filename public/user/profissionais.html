@@ -66,9 +66,12 @@
 
                     data.forEach(prof => {
                         const imagem = prof.foto_url ? prof.foto_url : '../../img/barbershop.png';
-                        // Escapamos as aspas para evitar erro no JS ao passar string
+                        
+                        // Tratamento de segurança para o texto
                         const nomeSafe = prof.nome.replace(/'/g, "\\'"); 
-                        const espSafe = prof.especialidade ? prof.especialidade.replace(/'/g, "\\'") : 'Geral';
+                        
+                        // Se não houver especialidades, define um texto padrão
+                        const espSafe = prof.especialidades ? prof.especialidades.replace(/'/g, "\\'") : 'Geral';
 
                         const cardHTML = `
                             <div class="card-pro">
@@ -99,8 +102,18 @@
 
         function abrirModal(nome, especialidade) {
             modalNome.innerText = nome;
-            modalTexto.innerText = especialidade;
-            modal.style.display = 'flex'; // Mostra o modal
+            // Transformamos a string separada por vírgula em um Array
+            if (especialidade && especialidade !== 'Geral') {
+                const listaItens = especialidade.split(', ')
+                    .map(item => `<li style="list-style: none; margin-bottom: 5px;">• ${item}</li>`)
+                    .join('');
+                
+                modalTexto.innerHTML = `<ul style="padding: 0; text-align: center;">${listaItens}</ul>`;
+            } else {
+                modalTexto.innerText = "Geral";
+            }
+            
+            modal.style.display = 'flex'; 
         }
 
         function fecharModal() {
