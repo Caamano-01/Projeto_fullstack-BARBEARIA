@@ -38,8 +38,8 @@
 
                     <br>
 
-                    <label for="">Telefone:</label>
-                    <input style="margin-bottom: 10px;" type="text" id="telefone" name="telefone" placeholder="51991919191" required>
+                    <label for="telefone">Telefone:</label>
+                    <input style="margin-bottom: 10px;" type="text" id="telefone" name="telefone" placeholder="(51) 99999-9999" maxlength="15" required>
 
                     <br>
 
@@ -51,8 +51,12 @@
                     <label for="password">Senha:</label>
 
                     <div class="input-wrapper">
-                        <input type="password" id="password" name="password" required>
-                        <svg class="eye-icon" ...></svg>
+                        <input type="password" id="password" name="password">
+                        <!-- ICON DE OLHO PARA VER SENHA -->
+                        <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
                     </div>
                 </div>
 
@@ -64,5 +68,44 @@
             </p>
         </div>
     </div>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.querySelector('.eye-icon');
+        const telefoneInput = document.getElementById('telefone');
+        const form = document.querySelector('form');
+
+        // MOSTRAR/ESCONDER SENHA
+        eyeIcon.addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.style.color = '#007bff';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.style.color = 'currentColor';
+            }
+        });
+
+        // MÁSCARA DE TELEFONE
+        telefoneInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, "");
+            if (value.length > 0) value = "(" + value;
+            if (value.length > 3) value = value.slice(0, 3) + ") " + value.slice(3);
+            if (value.length > 10) value = value.slice(0, 10) + "-" + value.slice(10);
+            e.target.value = value;
+        });
+
+        // VALIDAÇÃO ANTES DE ENVIAR
+        form.addEventListener('submit', function(event) {
+            const telValue = telefoneInput.value;
+            
+            // Verifica se o telefone tem o tamanho correto (15 caracteres)
+            if (telValue.length < 15) {
+                event.preventDefault(); // Impede o envio do formulário
+                alert('Por favor, insira o telefone completo com DDD e 9 dígitos: (XX) XXXXX-XXXX');
+                telefoneInput.focus(); // Coloca o cursor no campo de telefone
+            }
+        });
+    </script>
 </body>
 </html>

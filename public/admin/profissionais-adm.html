@@ -135,6 +135,8 @@
             const containerServicos = document.getElementById('lista-especialidades-check');
             const btnSalvar = document.getElementById('btnSalvar');
             const btnNovo = document.getElementById('btnNovoProfissional');
+            const passwordInput = document.getElementById('password');
+            const telefoneInput = document.getElementById('prof-whats');
 
             /* =========================
             INICIALIZAÇÃO
@@ -391,6 +393,26 @@
                 }
             });
 
+            telefoneInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\D/g, "");
+                if (value.length > 0) value = "(" + value;
+                if (value.length > 3) value = value.slice(0, 3) + ") " + value.slice(3);
+                if (value.length > 10) value = value.slice(0, 10) + "-" + value.slice(10);
+                e.target.value = value;
+            });
+
+            // VALIDAÇÃO ANTES DE ENVIAR
+            form.addEventListener('submit', function(event) {
+                const telValue = telefoneInput.value;
+                
+                // Verifica se o telefone tem o tamanho correto (15 caracteres)
+                if (telValue.length < 15) {
+                    event.preventDefault(); // Impede o envio do formulário
+                    alert('Por favor, insira o telefone completo com DDD e 9 dígitos: (XX) XXXXX-XXXX');
+                    telefoneInput.focus(); // Coloca o cursor no campo de telefone
+                }
+            });
+            
             /* =========================
             UTIL
             ========================== */

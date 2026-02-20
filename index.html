@@ -58,5 +58,20 @@
             </p>
         </div>
     </div>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.querySelector('.eye-icon');
+
+        eyeIcon.addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.style.color = '#007bff';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.style.color = 'currentColor';
+            }
+        });
+    </script>
 </body>
 </html>
