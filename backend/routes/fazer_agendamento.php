@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         echo "<script>
         alert('Agendado com sucesso!');
-        window.location.href='meus-horarios.html';
+        window.location.href='../../public/user/meus-horarios.html';
         </script>";
 
     } else {

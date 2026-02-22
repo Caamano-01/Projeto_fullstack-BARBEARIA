@@ -32,38 +32,43 @@
     <main class="container-horarios">
         <h2 class="titulo">Reserve seu horário</h2>
 
-        <form id="form-agendamento" action="fazer_agendamento.php" method="POST" class="agendamento-flow">
-            <div class="step-container">
-                <label><i class="fas fa-cut"></i> Qual o serviço de hoje?</label>
-                <select name="servico_id" id="servico_id" required onchange="buscarProfissionais()">
-                    <option value="" disabled selected>Selecione um serviço</option>
-                </select>
-            </div>
+        <div class="agendar-container">
+                <h2>Agende seu Horário</h2>
+                
+                <form action="../../backend/routes/fazer_agendamento.php" method="POST">
+                    <div class="form-group">
+                        <label>Escolha o Serviço:</label>
+                        <select name="servico_id" id="servico_id" class="form-control" required onchange="carregarProfissionais()">
+                            <option value="">Selecione...</option>
+                        </select>
+                    </div>
 
-            <div class="step-container" id="div-profissional" style="display:none;">
-                <label>Com qual especialista?</label>
-                <select name="profissional_id" id="profissional_id" required onchange="resetData()">
-                    <option value="">Selecione o barbeiro</option>
-                </select>
-            </div>
+                    <div class="form-group">
+                        <label>Escolha o Profissional:</label>
+                        <select name="profissional_id" id="profissional_id" class="form-control" required onchange="resetData()">
+                            <option value="">Primeiro escolha o serviço</option>
+                        </select>
+                    </div>
 
-            <div class="step-container" id="secao-calendario" style="display:none;">
-                <label>Escolha uma data</label>
-                <input type="date" name="data" id="data_agendamento" required onchange="buscarHorarios()">
-            </div>
+                    <div class="form-group">
+                        <label>Data:</label>
+                        <input type="date" name="data" id="data_agendamento" class="form-control" required onchange="carregarHorarios()">
+                    </div>
 
-            <div id="secao-horarios" style="display:none;">
-                <label>Escolha a hora:</label>
-                <div class="grade-horarios" id="container-slots"></div>
-            </div>
+                    <div id="secao-horarios" style="display:none;">
+                        <label>Horários Disponíveis:</label>
+                        <div id="lista-horarios" class="grid-horarios"></div>
+                    </div>
 
-            <input type="hidden" name="hora" id="hora_selecionada" required>
-            
-            <div id="resumo-card" class="resumo-agendamento" style="display:none;">
-                <p id="resumo-texto"></p>
-                <button type="submit" class="btn-confirmar" id="btn-finalizar">Confirmar Reserva</button>
+                    <input type="hidden" name="hora" id="hora_selecionada" required>
+
+                    <div id="resumo-card">
+                        <p id="resumo-texto"></p>
+                    </div>
+
+                    <button type="submit" class="btn-agendar">Confirmar Agendamento</button>
+                </form>
             </div>
-        </form>
     </main>
 
     <!-- RODAPÉ -->
@@ -100,56 +105,66 @@
                 .catch(err => console.error("Erro ao carregar serviços:", err));
         }
 
-        function buscarProfissionais() {
+        function carregarProfissionais() {
             const servicoId = document.getElementById('servico_id').value;
-            if (!servicoId) return;
+            const proSelect = document.getElementById('profissional_id');
 
-            fetch(`../../backend/routes/obter_dados.php?acao=profissionais&servico_id=${servicoId}`)
+            // Se não houver serviço selecionado, limpa o select de profissionais
+            if (!servicoId) {
+                proSelect.innerHTML = '<option value="">Selecione um serviço primeiro</option>';
+                return;
+            }
+
+            proSelect.innerHTML = '<option value="">Carregando...</option>';
+
+            fetch(`${API_URL}?acao=profissionais&servico_id=${servicoId}`)
                 .then(res => res.json())
                 .then(dados => {
-                    const select = document.getElementById('profissional_id');
-                    select.innerHTML = '<option value=\"\">Selecione um profissional</option>';
-
-                    // VERIFICAÇÃO DE SEGURANÇA:
-                    if (Array.isArray(dados)) {
+                    proSelect.innerHTML = '<option value="">Selecione o profissional</option>';
+                    
+                    if (Array.isArray(dados) && dados.length > 0) {
                         dados.forEach(p => {
-                            const option = document.createElement('option');
+                            let option = document.createElement('option');
                             option.value = p.id;
-                            option.text = p.nome;
-                            select.appendChild(option);
+                            option.textContent = p.nome;
+                            proSelect.appendChild(option);
                         });
-                        document.getElementById('div-profissional').style.display = 'block';
                     } else {
-                        console.error("O PHP não retornou um array:", dados);
-                        alert("Erro ao carregar profissionais. Verifique o console.");
+                        proSelect.innerHTML = '<option value="">Nenhum profissional disponível</option>';
                     }
                 })
-                .catch(err => console.error("Erro na requisição:", err));
+                .catch(erro => {
+                    console.error("Erro ao carregar profissionais:", erro);
+                    proSelect.innerHTML = '<option value="">Erro ao carregar</option>';
+                });
         }
 
-        function buscarHorarios(){
-            let data = document.getElementById("data_agendamento").value;
-            fetch("agendamentos.php?data=" + data)
-                    .then(res => res.json())
-                    .then(dados => {
+        function carregarHorarios() {
+            const proId = document.getElementById('profissional_id').value;
+            const data = document.getElementById('data_agendamento').value;
+            const listaContainer = document.getElementById('lista-horarios');
 
-                    let select = document.getElementById("hora");
-                    select.innerHTML = "";
+            if (!proId || !data) return;
 
-                    // evita erro forEach
-                    if(!Array.isArray(dados)){
-                        console.log(dados);
-                        return;
+            fetch(`${API_URL}?acao=horarios&profissional_id=${proId}&data=${data}`)
+                .then(res => res.json())
+                .then(dados => {
+                    listaContainer.innerHTML = ''; // Limpa os horários anteriores
+                    document.getElementById('secao-horarios').style.display = 'block';
+
+                    if (Array.isArray(dados) && dados.length > 0) {
+                        dados.forEach(item => {
+                            const div = document.createElement('div');
+                            div.className = 'slot-hora';
+                            div.textContent = item.hora;
+                            div.onclick = () => selecionarHora(item.hora, div);
+                            listaContainer.appendChild(div);
+                        });
+                    } else {
+                        listaContainer.innerHTML = '<p>Nenhum horário disponível para esta data.</p>';
                     }
-
-                dados.forEach(item => {
-                    let option = document.createElement("option");
-                    option.value = item.hora;
-                    option.textContent = item.hora;
-                    select.appendChild(option);
-                });
-            })
-            .catch(erro => console.log(erro));
+                })
+                .catch(err => console.error("Erro ao carregar horários:", err));
         }
 
         function selecionarHora(hora, elemento) {
