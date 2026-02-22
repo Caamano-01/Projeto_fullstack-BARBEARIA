@@ -5,6 +5,9 @@ error_reporting(E_ALL);
 header('Content-Type: application/json');
 require_once __DIR__ . '/../config/db.php';
 
+$database = new Database();
+$pdo = $database->connect(); 
+
 $acao = $_GET['acao'] ?? '';
 
 // Buscar profissionais por serviço
