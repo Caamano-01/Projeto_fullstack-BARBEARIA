@@ -94,6 +94,12 @@
 
             // renderização dos gráficos (Chart.js)
             function renderizarGraficos(data) {
+                // Verificação de segurança: se 'servicos' ou 'clientes' não existirem, para aqui
+                if (!data.servicos || !data.servicos.nomes || !data.clientes || !data.clientes.nomes) {
+                    console.error("Estrutura de dados inválida para os gráficos:", data);
+                    return;
+                }
+
                 // Gráfico de Serviços (Barras)
                 new Chart(document.getElementById('chartServicos'), {
                     type: 'bar',
@@ -109,7 +115,7 @@
                     options: { responsive: true }
                 });
 
-                // gráfico de clientes
+                // Gráfico de clientes
                 new Chart(document.getElementById('chartClientes'), {
                     type: 'line',
                     data: {
