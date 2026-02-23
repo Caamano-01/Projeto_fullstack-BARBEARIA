@@ -22,7 +22,6 @@
                 <li><a href="../user/meus-horarios.html">Meus horários</a></li>
                 <li><a href="../user/agendar.html">Agendar</a></li>
                 <li><a href="../user/localizacao.html">Localização</a></li>
-                <li><a href="../user/perfil.html">Perfil</a></li>
                 <li><a class="btn-sair" href="../../index.html">Sair</a></li>
             </ul>
         </nav>
@@ -48,16 +47,31 @@
 
             function carregarHorarios() {
                 fetch('../../backend/routes/horarios-users.php')
-                    .then(response => response.json())
+                    .then(response => {
+                        // Se o PHP der erro (404, 500, etc), captura o texto para debug
+                        if (!response.ok) {
+                            return response.text().then(text => { throw new Error(text) });
+                        }
+                        return response.json();
+                    })
                     .then(dados => {
-                        if (dados.erro || dados.length === 0) {
-                            container.innerHTML = `<div class="mensagem-vazia"><p>Sem agendamentos.</p></div>`;
+                        console.log("Dados recebidos:", dados);
+                        
+                        // Limpa o "Carregando..."
+                        container.innerHTML = ''; 
+
+                        // Verifica se o PHP retornou um erro de sessão ou lista vazia
+                        if (dados.erro) {
+                            container.innerHTML = `<p class="mensagem-erro">${dados.erro}</p>`;
                             return;
                         }
 
-                        container.innerHTML = ''; 
+                        if (dados.length === 0) {
+                            container.innerHTML = '<p class="mensagem-vazia">Você ainda não possui agendamentos.</p>';
+                            return;
+                        }
+
                         dados.forEach(item => {
-                            // Só mostra o botão de cancelar se o status for 'pendente' ou 'confirmado'
                             const podeCancelar = item.status === 'pendente' || item.status === 'confirmado';
                             const botaoCancelar = podeCancelar ? 
                                 `<button class="btn-cancelar" onclick="cancelarAgendamento(${item.id})">Cancelar</button>` : '';
@@ -67,8 +81,8 @@
                                     <div class="detalhes-hor">
                                         <p><strong>Serviço:</strong> ${item.servico}</p>
                                         <p><strong>Profissional:</strong> ${item.profissional}</p>
-                                        <p><strong>Data:</strong> ${item.data.split('-').reverse().join('/')}</p>
-                                        <p><strong>Hora:</strong> ${item.hora.substring(0, 5)}</p>
+                                        <p><strong>Data:</strong> ${item.data}</p>
+                                        <p><strong>Hora:</strong> ${item.hora}</p>
                                     </div>
                                     <div class="status-container">
                                         <span class="status-badge status-${item.status}">${item.status.toUpperCase()}</span>
@@ -76,27 +90,35 @@
                                     </div>
                                 </div>`;
                         });
+                    })
+                    .catch(err => {
+                        console.error("Erro detalhado:", err.message);
+                        container.innerHTML = '<p>Erro ao carregar agendamentos. Verifique o console.</p>';
                     });
             }
 
-            // Função global para ser chamada pelo clique do botão
+            // Função para cancelar
             window.cancelarAgendamento = function(id) {
                 if (confirm('Tem certeza que deseja cancelar este agendamento?')) {
-                    const formData = new FormData();
-                    formData.append('agendamento_id', id);
-
                     fetch('../../backend/routes/cancelar-agendamento.php', {
                         method: 'POST',
-                        body: formData
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `id=${id}`
                     })
-                    .then(r => r.json())
-                    .then(res => {
-                        if (res.sucesso) {
+                    .then(res => res.json())
+                    .then(dados => {
+                        if (dados.sucesso) {
                             alert('Agendamento cancelado com sucesso!');
-                            carregarHorarios(); // Recarrega a lista
+                            carregarHorarios();
                         } else {
-                            alert('Erro: ' + res.erro);
+                            alert('Erro: ' + (dados.erro || 'Falha ao cancelar'));
                         }
+                    })
+                    .catch(err => {
+                        console.error('Erro na requisição:', err);
+                        alert('Erro ao processar o cancelamento.');
                     });
                 }
             };
