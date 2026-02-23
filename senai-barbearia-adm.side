@@ -1,0 +1,637 @@
+{
+  "id": "57786a56-62af-42e7-a49a-be0793fd6e95",
+  "version": "2.0",
+  "name": "senai-barbearia-adm",
+  "url": "http://localhost:8080/Projeto_fullstack-BARBEARIA/index.html",
+  "tests": [{
+    "id": "08f4aa5e-4971-46ec-a21c-177c58437d31",
+    "name": "CT01 - Login ",
+    "commands": [{
+      "id": "29460ac1-071b-4cbf-91cd-8598bc75b348",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/Projeto_fullstack-BARBEARIA/index.html",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4d858d30-bb40-4899-b0cc-710d0b2179bf",
+      "comment": "",
+      "command": "click",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "16a5f015-1f6e-4e3d-a07e-5f5489c20ac5",
+      "comment": "",
+      "command": "type",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin@teste.com"
+    }, {
+      "id": "369870fa-f74a-428b-b0d8-964e0b86a3f1",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "63e4d2f9-4478-489a-b235-3f22fed27dce",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "admin123"
+    }, {
+      "id": "749ebdce-aeec-4b2a-a66a-f42a9a645470",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-login",
+      "targets": [
+        ["css=.btn-login", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Entrar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "28428da3-4fe5-48ad-8c3a-11445dff6a16",
+    "name": "CT02 - Criar novo serviço",
+    "commands": [{
+      "id": "efe10f03-cdd7-4473-9123-3da7d1da74c3",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/Projeto_fullstack-BARBEARIA/index.html",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9fb318bb-c821-409f-82ec-956edc2a80cc",
+      "comment": "",
+      "command": "click",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7d05100e-f218-4a85-9a91-c7782a98d03f",
+      "comment": "",
+      "command": "type",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin@teste.com"
+    }, {
+      "id": "70c519da-6849-4004-b85c-72ec2c139521",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "66963d2f-7c1e-4963-9581-cd3cce9e7fa2",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "admin123"
+    }, {
+      "id": "4074def4-a735-481c-b40f-14ba846aed3e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-login",
+      "targets": [
+        ["css=.btn-login", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Entrar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "aafafbe5-4c6c-461c-b359-af125795cb98",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Serviços",
+      "targets": [
+        ["linkText=Serviços", "linkText"],
+        ["css=a:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Serviços')]", "xpath:link"],
+        ["xpath=//a[contains(@href, 'servicos-adm.html')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Serviços')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7dc27f28-804f-43a0-8e07-45e828c9e440",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-dark",
+      "targets": [
+        ["css=.btn-dark", "css:finder"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'+ Add serviço')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "54a7323d-f352-477a-8724-2e83db676f2a",
+      "comment": "",
+      "command": "click",
+      "target": "id=servico-nome",
+      "targets": [
+        ["id=servico-nome", "id"],
+        ["css=#servico-nome", "css:finder"],
+        ["xpath=//input[@id='servico-nome']", "xpath:attributes"],
+        ["xpath=//form[@id='formServico']/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f82cb977-8c62-4a6e-aebe-a036fc8886ba",
+      "comment": "",
+      "command": "type",
+      "target": "id=servico-nome",
+      "targets": [
+        ["id=servico-nome", "id"],
+        ["css=#servico-nome", "css:finder"],
+        ["xpath=//input[@id='servico-nome']", "xpath:attributes"],
+        ["xpath=//form[@id='formServico']/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Barba Completa"
+    }, {
+      "id": "d5413d8b-b34e-4663-b070-a179db615df0",
+      "comment": "",
+      "command": "click",
+      "target": "id=servico-descricao",
+      "targets": [
+        ["id=servico-descricao", "id"],
+        ["css=#servico-descricao", "css:finder"],
+        ["xpath=//input[@id='servico-descricao']", "xpath:attributes"],
+        ["xpath=//form[@id='formServico']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e2a143da-fb6d-440f-a7b7-4fccdb9404ac",
+      "comment": "",
+      "command": "type",
+      "target": "id=servico-descricao",
+      "targets": [
+        ["id=servico-descricao", "id"],
+        ["css=#servico-descricao", "css:finder"],
+        ["xpath=//input[@id='servico-descricao']", "xpath:attributes"],
+        ["xpath=//form[@id='formServico']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "Barba desenhada e feita a navalha"
+    }, {
+      "id": "8393bbd4-0d79-4898-b221-eaab6a5ac39b",
+      "comment": "",
+      "command": "click",
+      "target": "id=servico-preco",
+      "targets": [
+        ["id=servico-preco", "id"],
+        ["css=#servico-preco", "css:finder"],
+        ["xpath=//input[@id='servico-preco']", "xpath:attributes"],
+        ["xpath=//form[@id='formServico']/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4f33e8b9-a164-4264-9bfe-3a12cdacd5ee",
+      "comment": "",
+      "command": "type",
+      "target": "id=servico-preco",
+      "targets": [
+        ["id=servico-preco", "id"],
+        ["css=#servico-preco", "css:finder"],
+        ["xpath=//input[@id='servico-preco']", "xpath:attributes"],
+        ["xpath=//form[@id='formServico']/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "35"
+    }, {
+      "id": "d0990a4e-35b6-4488-995d-4674740ffdde",
+      "comment": "",
+      "command": "click",
+      "target": "id=servico-duracao",
+      "targets": [
+        ["id=servico-duracao", "id"],
+        ["css=#servico-duracao", "css:finder"],
+        ["xpath=//input[@id='servico-duracao']", "xpath:attributes"],
+        ["xpath=//form[@id='formServico']/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7cc67bfa-8b0b-45ae-a239-3205dc6b97e7",
+      "comment": "",
+      "command": "type",
+      "target": "id=servico-duracao",
+      "targets": [
+        ["id=servico-duracao", "id"],
+        ["css=#servico-duracao", "css:finder"],
+        ["xpath=//input[@id='servico-duracao']", "xpath:attributes"],
+        ["xpath=//form[@id='formServico']/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": "30"
+    }, {
+      "id": "e586eb5d-eb5f-4f2f-853f-e76eec36f603",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//form[@id='formServico']/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Salvar Alterações')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "1bc0b4c7-07f6-49cd-8db2-def9ace7703c",
+    "name": "CT03 - Bloqueio de horários",
+    "commands": [{
+      "id": "fe718d57-7b44-4be1-9489-593d9730f030",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/Projeto_fullstack-BARBEARIA/index.html",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "80b6845d-f6a5-40de-b1f2-9fe4ace0a5c4",
+      "comment": "",
+      "command": "click",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e54437ea-2f0e-47b8-9de6-9523115f4104",
+      "comment": "",
+      "command": "type",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin@teste.com"
+    }, {
+      "id": "6f7f9861-0185-4914-ba00-edb56764f320",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fd808224-1385-4e69-89f2-b13a227a5c26",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "admin123"
+    }, {
+      "id": "277d0ad8-75da-43fa-9ed1-8e3b76d35f27",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-login",
+      "targets": [
+        ["css=.btn-login", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Entrar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b561e1d8-8a29-4385-a51a-4d7469539263",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Horários",
+      "targets": [
+        ["linkText=Horários", "linkText"],
+        ["css=a:nth-child(5)", "css:finder"],
+        ["xpath=//a[contains(text(),'Horários')]", "xpath:link"],
+        ["xpath=//a[contains(@href, 'horarios-adm.html')]", "xpath:href"],
+        ["xpath=//a[5]", "xpath:position"],
+        ["xpath=//a[contains(.,'Horários')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ce4fdb80-3366-4867-b973-10fef95f2387",
+      "comment": "",
+      "command": "click",
+      "target": "id=profissional_id",
+      "targets": [
+        ["id=profissional_id", "id"],
+        ["css=#profissional_id", "css:finder"],
+        ["xpath=//select[@id='profissional_id']", "xpath:attributes"],
+        ["xpath=//form[@id='form-bloqueio']/div/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ac405b5a-b0ca-407e-ad3a-32832f146c50",
+      "comment": "",
+      "command": "select",
+      "target": "id=profissional_id",
+      "targets": [],
+      "value": "label=André"
+    }, {
+      "id": "04b8790d-a543-4868-8789-cdd6bc27c667",
+      "comment": "",
+      "command": "click",
+      "target": "id=data_bloqueio",
+      "targets": [
+        ["id=data_bloqueio", "id"],
+        ["css=#data_bloqueio", "css:finder"],
+        ["xpath=//input[@id='data_bloqueio']", "xpath:attributes"],
+        ["xpath=//form[@id='form-bloqueio']/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "48d90bf2-e143-4b7d-a1d7-7b49dcbc489d",
+      "comment": "",
+      "command": "type",
+      "target": "id=data_bloqueio",
+      "targets": [
+        ["id=data_bloqueio", "id"],
+        ["css=#data_bloqueio", "css:finder"],
+        ["xpath=//input[@id='data_bloqueio']", "xpath:attributes"],
+        ["xpath=//form[@id='form-bloqueio']/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "2026-03-19"
+    }, {
+      "id": "7d243387-3d22-4ae3-9c48-f7205930cc93",
+      "comment": "",
+      "command": "click",
+      "target": "id=hora_inicio",
+      "targets": [
+        ["id=hora_inicio", "id"],
+        ["css=#hora_inicio", "css:finder"],
+        ["xpath=//input[@id='hora_inicio']", "xpath:attributes"],
+        ["xpath=//form[@id='form-bloqueio']/div/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d4dfed03-9b96-4231-b00c-6c34575e4c3d",
+      "comment": "",
+      "command": "type",
+      "target": "id=hora_inicio",
+      "targets": [
+        ["id=hora_inicio", "id"],
+        ["css=#hora_inicio", "css:finder"],
+        ["xpath=//input[@id='hora_inicio']", "xpath:attributes"],
+        ["xpath=//form[@id='form-bloqueio']/div/div[3]/input", "xpath:idRelative"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "15:00"
+    }, {
+      "id": "dd8f8b9a-1c99-4c41-ba5c-462b1edb26a2",
+      "comment": "",
+      "command": "click",
+      "target": "id=hora_fim",
+      "targets": [
+        ["id=hora_fim", "id"],
+        ["css=#hora_fim", "css:finder"],
+        ["xpath=//input[@id='hora_fim']", "xpath:attributes"],
+        ["xpath=//form[@id='form-bloqueio']/div/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "61efb899-8d5a-4aa8-8499-f5b25bfede44",
+      "comment": "",
+      "command": "type",
+      "target": "id=hora_fim",
+      "targets": [
+        ["id=hora_fim", "id"],
+        ["css=#hora_fim", "css:finder"],
+        ["xpath=//input[@id='hora_fim']", "xpath:attributes"],
+        ["xpath=//form[@id='form-bloqueio']/div/div[4]/input", "xpath:idRelative"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": "16:00"
+    }, {
+      "id": "b93b21ec-dd70-4310-ae7a-96b281c2ba42",
+      "comment": "",
+      "command": "click",
+      "target": "id=motivo",
+      "targets": [
+        ["id=motivo", "id"],
+        ["css=#motivo", "css:finder"],
+        ["xpath=//input[@id='motivo']", "xpath:attributes"],
+        ["xpath=//form[@id='form-bloqueio']/div/div[5]/input", "xpath:idRelative"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7cfa215e-6d9f-41d1-a399-6a5da09c4615",
+      "comment": "",
+      "command": "type",
+      "target": "id=motivo",
+      "targets": [
+        ["id=motivo", "id"],
+        ["css=#motivo", "css:finder"],
+        ["xpath=//input[@id='motivo']", "xpath:attributes"],
+        ["xpath=//form[@id='form-bloqueio']/div/div[5]/input", "xpath:idRelative"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": "Ir no médico"
+    }, {
+      "id": "cbfd2774-767c-4cd6-871e-8204dc8cb973",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-dark",
+      "targets": [
+        ["css=.btn-dark", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//form[@id='form-bloqueio']/div/div[6]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Bloquear Horário')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "50ff8aa7-b8dc-489f-8413-2bf5ba70687a",
+    "name": "CT04 - Visualização de agenda hoje",
+    "commands": [{
+      "id": "b81a9529-2874-4f26-8cc9-a1907ad74d26",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/Projeto_fullstack-BARBEARIA/index.html",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e10315e2-f412-4be0-beca-db61fcd8541c",
+      "comment": "",
+      "command": "click",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fc729ac1-ff3e-4fd6-a766-e31e484eba82",
+      "comment": "",
+      "command": "type",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin@teste.com"
+    }, {
+      "id": "99a0e923-dacf-477a-83d4-33d3890ba507",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b73c3646-086a-42d4-9a5f-97d7f2a3839a",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "admin123"
+    }, {
+      "id": "f66103f1-2430-4cde-843d-95d5515ee167",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-login",
+      "targets": [
+        ["css=.btn-login", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Entrar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9c9b9c1a-be70-400f-ab8b-7398702231f7",
+      "comment": "",
+      "command": "waitForElementPresent",
+      "target": "css=.card-header",
+      "targets": [
+        ["css=.card-header", "css:finder"],
+        ["xpath=//div[@id='agendamentos-container']/div/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div/div", "xpath:position"]
+      ],
+      "value": "5000"
+    }, {
+      "id": "7e1b2639-8ada-417b-87c6-858a8593b986",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=td:nth-child(1)",
+      "targets": [
+        ["css=td:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='agendamentos-container']/div/div[2]/table/tbody/tr/td", "xpath:idRelative"],
+        ["xpath=//td", "xpath:position"],
+        ["xpath=//td[contains(.,'Usuário Teste')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "87f8a026-eab0-49fb-bf86-48f8de524703",
+    "name": "CT05 - Navegação entre menus",
+    "commands": []
+  }],
+  "suites": [{
+    "id": "6caf3683-e4d5-4f33-86d5-91e68caf7baf",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:8080/Projeto_fullstack-BARBEARIA/public/admin/", "http://localhost:8080/Projeto_fullstack-BARBEARIA/index.html"],
+  "plugins": []
+}
