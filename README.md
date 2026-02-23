@@ -12,7 +12,6 @@ O sistema possui:
 
 ### 👤 Área do Cliente
 - Cadastro e login  
-- Edição de perfil  
 - Lista de serviços (nome, descrição, preço, duração)  
 - Lista de profissionais (foto, especialidade, contato)  
 - Agendamento de serviços (serviço + profissional + data + hora)  
@@ -33,8 +32,8 @@ O sistema possui:
 
 | Camada | Tecnologias |
 |-------|-------------|
-| **Frontend** | HTML5, CSS3, JavaScript (Fetch API) |
-| **Backend** | PHP 8+ com PDO |
+| **Frontend** | HTML5, CSS3, JavaScript |
+| **Backend** | PHP |
 | **Banco de Dados** | MySQL |
 | **Design / Protótipo** | Canva |
 
