@@ -139,31 +139,58 @@
         }
 
         function carregarHorarios() {
-            const proId = document.getElementById('profissional_id').value;
             const data = document.getElementById('data_agendamento').value;
+            const profId = document.getElementById('profissional_id').value;
             const listaContainer = document.getElementById('lista-horarios');
 
-            if (!proId || !data) return;
+            if (!data || !profId) return;
 
-            fetch(`${API_URL}?acao=horarios&profissional_id=${proId}&data=${data}`)
-                .then(res => res.json())
-                .then(dados => {
-                    listaContainer.innerHTML = ''; // Limpa os horários anteriores
-                    document.getElementById('secao-horarios').style.display = 'block';
+            document.getElementById('secao-horarios').style.display = 'block';
+            listaContainer.innerHTML = '<p>Carregando horários...</p>';
 
-                    if (Array.isArray(dados) && dados.length > 0) {
-                        dados.forEach(item => {
-                            const div = document.createElement('div');
-                            div.className = 'slot-hora';
-                            div.textContent = item.hora;
-                            div.onclick = () => selecionarHora(item.hora, div);
-                            listaContainer.appendChild(div);
-                        });
+            // Busca bloqueios e agendamentos simultaneamente
+            Promise.all([
+                fetch(`../../backend/routes/listar-bloqueios.php?data=${data}&profissional_id=${profId}`).then(r => r.json()),
+                fetch(`../../backend/routes/agendamentos.php?data=${data}`).then(r => r.json())
+            ])
+            .then(([bloqueios, agendados]) => {
+                listaContainer.innerHTML = '';
+                
+                // Defina aqui sua grade de horários padrão
+                const gradeHorarios = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00",
+                "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00"];
+
+                gradeHorarios.forEach(hora => {
+                    const horaFormatada = hora + ":00";
+                    
+                    // Verifica se está agendado
+                    const estaAgendado = agendados.some(a => a.hora === horaFormatada);
+                    
+                    // Verifica se está bloqueado pelo ADM (entre hora_inicio e hora_fim)
+                    const estaBloqueado = bloqueios.some(b => {
+                        return b.profissional_id == profId && 
+                            b.data === data && 
+                            (horaFormatada >= b.hora_inicio && horaFormatada <= b.hora_fim);
+                    });
+
+                    const div = document.createElement('div');
+                    div.className = 'slot-hora';
+                    div.textContent = hora;
+
+                    if (estaAgendado || estaBloqueado) {
+                        div.classList.add('bloqueado');
+                        div.title = estaBloqueado ? "Bloqueado pelo Admin" : "Já reservado";
                     } else {
-                        listaContainer.innerHTML = '<p>Nenhum horário disponível para esta data.</p>';
+                        div.onclick = () => selecionarHora(hora, div);
                     }
-                })
-                .catch(err => console.error("Erro ao carregar horários:", err));
+                    
+                    listaContainer.appendChild(div);
+                });
+            })
+            .catch(err => {
+                console.error("Erro:", err);
+                listaContainer.innerHTML = '<p>Erro ao carregar horários.</p>';
+            });
         }
 
         function selecionarHora(hora, elemento) {

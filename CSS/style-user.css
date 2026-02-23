@@ -821,6 +821,14 @@ nav a:hover {
     background: #218838;
 }
 
+.slot-hora.bloqueado {
+    background-color: #e0e0e0 !important;
+    color: #a0a0a0 !important;
+    cursor: not-allowed !important;
+    border: 1px solid #ccc !important;
+    text-decoration: line-through;
+}
+
 /**********************************************************************/
 /**************************** MEUS-HORARIOS.HTML *****************************/
 .container-horarios {

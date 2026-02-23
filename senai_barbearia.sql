@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23/02/2026 às 13:24
+-- Tempo de geração: 23/02/2026 às 16:03
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -43,7 +43,10 @@ CREATE TABLE `agendamentos` (
 --
 
 INSERT INTO `agendamentos` (`id`, `usuario_id`, `servico_id`, `profissional_id`, `data`, `hora`, `status`, `criado_em`) VALUES
-(2, 2, 1, 5, '2026-02-28', '10:00:00', 'confirmado', '2026-02-23 11:47:18');
+(2, 2, 1, 5, '2026-02-28', '10:00:00', 'confirmado', '2026-02-23 11:47:18'),
+(3, 2, 3, 5, '2026-02-24', '11:00:00', 'cancelado', '2026-02-23 12:50:42'),
+(4, 2, 3, 5, '2026-03-03', '09:00:00', 'confirmado', '2026-02-23 13:34:54'),
+(5, 2, 2, 6, '2026-02-23', '19:00:00', 'confirmado', '2026-02-23 14:02:57');
 
 -- --------------------------------------------------------
 
@@ -227,7 +230,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `agendamentos`
 --
 ALTER TABLE `agendamentos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `bloqueios_horarios`
