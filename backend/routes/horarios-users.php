@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../config/db.php';
 
+// Verifica se o usuário está logado
 if (!isset($_SESSION['id'])) {
     echo json_encode(['erro' => 'Não autorizado']);
     exit();
@@ -10,12 +11,12 @@ if (!isset($_SESSION['id'])) {
 $usuario_id = $_SESSION['id'];
 $agendamentos = [];
 
-$sql = "SELECT a.data, a.hora, a.status, s.nome AS servico, p.nome AS profissional 
+$sql = "SELECT a.id, a.data, a.hora, a.status, s.nome AS servico, p.nome AS profissional 
         FROM agendamentos a
         JOIN servicos s ON a.servico_id = s.id
         JOIN profissionais p ON a.profissional_id = p.id
         WHERE a.usuario_id = ?
-        ORDER BY a.data DESC";
+        ORDER BY a.data DESC, a.hora DESC";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $usuario_id);
@@ -27,5 +28,6 @@ while ($row = $result->fetch_assoc()) {
 }
 
 // Retorna o array para o JavaScript
+header('Content-Type: application/json');
 echo json_encode($agendamentos);
 ?>

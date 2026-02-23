@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $sql = "INSERT INTO agendamentos 
             (usuario_id, servico_id, profissional_id, data, hora, status) 
-            VALUES (?, ?, ?, ?, ?, 'pendente')";
+            VALUES (?, ?, ?, ?, ?, 'confirmado')";
 
     $stmt = $pdo->prepare($sql);
 

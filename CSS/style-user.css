@@ -918,23 +918,57 @@ nav a:hover {
     border: 1px solid #ddd;
 }
 
-.status-badge {
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 0.9rem;
-    text-transform: uppercase;
+.detalhes-hor {
+    text-align: left;
+    color: #333;
+    line-height: 1.6;
 }
 
-.status-pendente { background: #ffc107; color: #000; }
-.status-confirmado { background: #00C060; color: #fff; }
-.status-cancelado { background: #dc3545; color: #fff; }
+.detalhes-hor p {
+    margin: 5px 0;
+    font-size: 1.1rem;
+}
+
+.status-badge {
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    min-width: 100px;
+    display: inline-block;
+    text-align: center;
+}
 
 .mensagem-vazia {
     text-align: center;
     padding: 50px;
     font-size: 1.2rem;
 }
+
+.status-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.btn-cancelar {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+.btn-cancelar:hover {
+    background-color: #cc0000;
+}
+
+.status-confirmado { background: #00C060; color: #fff; }
+.status-cancelado { background: #dc3545; color: #fff; }
 
 
 
