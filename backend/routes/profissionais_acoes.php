@@ -21,20 +21,16 @@ if ($method === 'DELETE') {
 
         $conn->beginTransaction();
 
-        // buscar o usuario_id associado para excluir o login também
         $stmtSearch = $conn->prepare("SELECT usuario_id FROM profissionais WHERE id = ?");
         $stmtSearch->execute([$id]);
         $prof = $stmtSearch->fetch(PDO::FETCH_ASSOC);
 
-        // Deletar associações de serviços (FK)
         $stmtDelRel = $conn->prepare("DELETE FROM profissional_servico WHERE profissional_id = ?");
         $stmtDelRel->execute([$id]);
 
-        // Deletar o registro do profissional
         $stmt = $conn->prepare("DELETE FROM profissionais WHERE id = ?");
         $stmt->execute([$id]);
 
-        // Deletar o usuário (login) se ele existir
         if ($prof && $prof['usuario_id']) {
             $stmtUser = $conn->prepare("DELETE FROM usuarios WHERE id = ?");
             $stmtUser->execute([$prof['usuario_id']]);
@@ -43,8 +39,21 @@ if ($method === 'DELETE') {
         $conn->commit();
         echo json_encode(["success" => true]);
         exit;
+        
+    } catch (PDOException $e) {
+        if ($conn->inTransaction()) $conn->rollBack();
+        
+        if ($e->getCode() === '23000') {
+            echo json_encode([
+                "success" => false, 
+                "error" => "Não é possível excluir este profissional pois ele possui agendamentos registrados."
+            ]);
+        } else {
+            echo json_encode(["success" => false, "error" => "Erro no banco de dados: " . $e->getMessage()]);
+        }
+        exit;
     } catch (Exception $e) {
-        $conn->rollBack();
+        if ($conn->inTransaction()) $conn->rollBack();
         echo json_encode(["success" => false, "error" => $e->getMessage()]);
         exit;
     }
